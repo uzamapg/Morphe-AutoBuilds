@@ -174,15 +174,23 @@ def get_highest_version(versions: list[str]) -> str | None:
 
 def get_supported_version(package_name: str, cli: str, patches: str) -> Optional[str]:
     # Morphe CLI and ReVanced CLI have different list-versions syntax
-    is_morphe_cli = 'morphe' in Path(cli).name.lower()
+    cli_name = Path(cli).name.lower()
+    is_morphe_cli = 'morphe' in cli_name
+    is_revanced_v6_or_newer = 'revanced-cli-6' in cli_name or 'revanced-cli-7' in cli_name or 'revanced-cli-8' in cli_name
 
     if is_morphe_cli:
-        # Morphe CLI: positional patches arg, no -p or -b flags
         cmd = [
             'java', '-jar', cli,
             'list-versions',
             '-f', package_name,
             patches
+        ]
+    elif is_revanced_v6_or_newer:
+        cmd = [
+            'java', '-jar', cli,
+            'list-versions',
+            '-p', patches, '-b',
+            '-f', package_name
         ]
     else:
         # ReVanced CLI: pass patches as positional arg
