@@ -117,6 +117,27 @@ async def _solve_challenge_async(url: str, timeout: int = 30) -> dict:
             logging.warning("No APKMirror cookies found after challenge")
     except Exception as e:
         logging.warning(f"nodriver Cloudflare bypass error: {e}")
+        if chrome_path:
+            try:
+                logging.info("Running Chrome diagnostic command to capture stderr...")
+                diag = subprocess.run(
+                    [
+                        chrome_path,
+                        "--headless=new",
+                        "--no-sandbox",
+                        "--disable-gpu",
+                        "--remote-debugging-port=0",
+                        "--user-data-dir=/tmp/uc_diag"
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=5
+                )
+                logging.info(f"Diag exit code: {diag.returncode}")
+                logging.info(f"Diag stdout: {diag.stdout}")
+                logging.info(f"Diag stderr: {diag.stderr}")
+            except Exception as diag_err:
+                logging.warning(f"Could not run Chrome diagnostics: {diag_err}")
     finally:
         if browser:
             try:
