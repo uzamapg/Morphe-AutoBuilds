@@ -28,7 +28,7 @@ async def _solve_challenge_async(url: str, timeout: int = 30) -> dict:
     cookies: dict = {}
     browser = None
     try:
-        browser = await uc.start(headless=True, no_sandbox=True)
+        browser = await uc.start(headless=True, sandbox=False)
         page = await browser.get(url)
 
         # Poll until Cloudflare clears (title changes from "Just a moment...")
