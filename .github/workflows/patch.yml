@@ -192,7 +192,7 @@ jobs:
           echo "Records produced:"
           ls -la build_records/ 2>/dev/null || echo "(no records)"
 
-           - name: Debug - List Generated Files
+      - name: Debug - List Generated Files
         if: always()
         run: |
           echo "📁 Current directory contents:"
@@ -210,7 +210,7 @@ jobs:
           name: apk-${{ matrix.app_name }}-${{ matrix.source }}
           path: "*.apk"
           if-no-files-found: warn
-          
+
       - name: Upload Build Records
         if: always()
         uses: actions/upload-artifact@v4
