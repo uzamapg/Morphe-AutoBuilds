@@ -174,7 +174,26 @@ jobs:
           echo "Building ${{ matrix.app_name }} with ${{ matrix.source }}..."
           sleep $((RANDOM % 30)).$((RANDOM % 100))
           
-          python -m src
+          python -m src 2>&1 | tee build.log
+          EXIT_CODE=$?
+          
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "❌ Build failed with exit code: $EXIT_CODE"
+            echo "Last 100 lines of log:"
+            tail -100 build.log
+            exit $EXIT_CODE
+          fi
+          
+          # Check if any APK was generated
+          apk_count=$(find . -maxdepth 1 -name "*.apk" -type f 2>/dev/null | wc -l)
+          if [ $apk_count -eq 0 ]; then
+            echo "⚠️ Build completed but no APK was generated"
+            echo "Full build log:"
+            cat build.log
+            exit 1
+          else
+            echo "✅ Found $apk_count APK(s)"
+          fi
 
       - name: Record Build Outputs
         if: always()
@@ -198,11 +217,14 @@ jobs:
           echo "📁 Current directory contents:"
           ls -la
           echo ""
-          echo "🔍 Searching for APKs:"
-          find . -name "*.apk" -type f || echo "No APKs found"
+          echo "🔍 Searching for APKs in current directory:"
+          find . -maxdepth 1 -name "*.apk" -type f
           echo ""
-          echo "📊 APK count:"
-          find . -name "*.apk" -type f | wc -l
+          echo "📊 APK count in current directory:"
+          find . -maxdepth 1 -name "*.apk" -type f | wc -l
+          echo ""
+          echo "📝 Build log (last 50 lines):"
+          tail -50 build.log 2>/dev/null || echo "No build.log found"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -217,6 +239,14 @@ jobs:
         with:
           name: build-records-${{ matrix.app_name }}-${{ matrix.source }}
           path: build_records/
+          if-no-files-found: ignore
+
+      - name: Upload Build Log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-${{ matrix.app_name }}-${{ matrix.source }}
+          path: build.log
           if-no-files-found: ignore
 
   create-single-release:
