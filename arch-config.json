@@ -33,5 +33,30 @@
     "app_name": "messenger",
     "source": "revanced",
     "arches": ["arm64-v8a", "armeabi-v7a"]
+  },
+  {
+    "app_name": "facebook",
+    "source": "hush-facebook",
+    "arches": ["arm64-v8a"]
+  },
+  {
+    "app_name": "tiktok",
+    "source": "hush-feed",
+    "arches": ["arm64-v8a"]
+  },
+  {
+    "app_name": "instagram",
+    "source": "hush-gram",
+    "arches": ["arm64-v8a"]
+  },
+  {
+    "app_name": "messenger",
+    "source": "hush-messenger",
+    "arches": ["arm64-v8a"]
+  },
+  {
+    "app_name": "threads",
+    "source": "hush-threads",
+    "arches": ["arm64-v8a"]
   }
 ]

@@ -100,6 +100,11 @@
     { "app_name": "windscribe", "source": "rushiranpise-dev" },
     { "app_name": "x-new", "source": "piko-newx" },
     { "app_name": "gboard", "source": "jasonwu1994" },
-    { "app_name": "facebook", "source": "devanced" }
+    { "app_name": "facebook", "source": "devanced" },
+    { "app_name": "facebook", "source": "hush-facebook" },
+    { "app_name": "tiktok", "source": "hush-feed" },
+    { "app_name": "instagram", "source": "hush-gram" },
+    { "app_name": "messenger", "source": "hush-messenger" },
+    { "app_name": "threads", "source": "hush-threads" }
   ]
 }

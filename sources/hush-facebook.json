@@ -1,0 +1,15 @@
+[
+    {
+      "name": "hush-facebook"
+    },
+    {
+      "user": "MorpheApp",
+      "repo": "morphe-cli",
+      "tag": "latest"
+    },
+    {
+      "user": "SysAdminDoc",
+      "repo": "HushFacebook",
+      "tag": "latest"
+    }
+]

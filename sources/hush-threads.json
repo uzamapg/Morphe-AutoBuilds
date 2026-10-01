@@ -1,0 +1,15 @@
+[
+    {
+      "name": "hush-threads"
+    },
+    {
+      "user": "MorpheApp",
+      "repo": "morphe-cli",
+      "tag": "latest"
+    },
+    {
+      "user": "SysAdminDoc",
+      "repo": "HushThreads",
+      "tag": "latest"
+    }
+]
