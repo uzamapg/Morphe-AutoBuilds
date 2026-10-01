@@ -403,6 +403,250 @@
     {
       "app_name": "threads",
       "source": "hush-threads"
+    },
+    {
+      "app_name": "todoist",
+      "source": "hooman"
+    },
+    {
+      "app_name": "flightradar24",
+      "source": "hooman"
+    },
+    {
+      "app_name": "powerplayer",
+      "source": "hooman"
+    },
+    {
+      "app_name": "retro-music",
+      "source": "hooman"
+    },
+    {
+      "app_name": "bandlab",
+      "source": "hooman"
+    },
+    {
+      "app_name": "quizlet",
+      "source": "hooman"
+    },
+    {
+      "app_name": "finch",
+      "source": "hooman"
+    },
+    {
+      "app_name": "batteryguru",
+      "source": "hooman"
+    },
+    {
+      "app_name": "swiftkey",
+      "source": "hooman"
+    },
+    {
+      "app_name": "at4k",
+      "source": "hooman"
+    },
+    {
+      "app_name": "tranzmate",
+      "source": "hooman"
+    },
+    {
+      "app_name": "photogallery",
+      "source": "hooman"
+    },
+    {
+      "app_name": "videostudio",
+      "source": "hooman"
+    },
+    {
+      "app_name": "cronometer",
+      "source": "hooman"
+    },
+    {
+      "app_name": "collectr",
+      "source": "hooman"
+    },
+    {
+      "app_name": "rumble-battles",
+      "source": "hooman"
+    },
+    {
+      "app_name": "stash",
+      "source": "hooman"
+    },
+    {
+      "app_name": "audiobookplayer",
+      "source": "hooman"
+    },
+    {
+      "app_name": "remux",
+      "source": "hooman"
+    },
+    {
+      "app_name": "linewebtoon",
+      "source": "hooman"
+    },
+    {
+      "app_name": "iamsober",
+      "source": "hooman"
+    },
+    {
+      "app_name": "moneta",
+      "source": "hooman"
+    },
+    {
+      "app_name": "foldersync",
+      "source": "hooman"
+    },
+    {
+      "app_name": "chatboost",
+      "source": "hooman"
+    },
+    {
+      "app_name": "teachmeanatomy",
+      "source": "hooman"
+    },
+    {
+      "app_name": "instashot",
+      "source": "hooman"
+    },
+    {
+      "app_name": "brave",
+      "source": "kveld"
+    },
+    {
+      "app_name": "nokoprint",
+      "source": "kveld"
+    },
+    {
+      "app_name": "mi-earphone",
+      "source": "kveld"
+    },
+    {
+      "app_name": "bounce",
+      "source": "bufferk"
+    },
+    {
+      "app_name": "medium",
+      "source": "bufferk"
+    },
+    {
+      "app_name": "mygate",
+      "source": "bufferk"
+    },
+    {
+      "app_name": "line",
+      "source": "andrew"
+    },
+    {
+      "app_name": "moonreader",
+      "source": "binarymend"
+    },
+    {
+      "app_name": "notecal",
+      "source": "binarymend"
+    },
+    {
+      "app_name": "quickcursor",
+      "source": "binarymend"
+    },
+    {
+      "app_name": "acalendar",
+      "source": "binarymend"
+    },
+    {
+      "app_name": "nis",
+      "source": "xtra"
+    },
+    {
+      "app_name": "stellarium",
+      "source": "xtra"
+    },
+    {
+      "app_name": "starwalk2",
+      "source": "xtra"
+    },
+    {
+      "app_name": "circuit",
+      "source": "xtra"
+    },
+    {
+      "app_name": "automate",
+      "source": "xtra"
+    },
+    {
+      "app_name": "atmfee",
+      "source": "xtra"
+    },
+    {
+      "app_name": "speedtest",
+      "source": "xtra"
+    },
+    {
+      "app_name": "blocker",
+      "source": "xtra"
+    },
+    {
+      "app_name": "vpnify",
+      "source": "xtra"
+    },
+    {
+      "app_name": "velnet",
+      "source": "xtra"
+    },
+    {
+      "app_name": "twitch",
+      "source": "hooman"
+    },
+    {
+      "app_name": "tumblr",
+      "source": "hooman"
+    },
+    {
+      "app_name": "sofascore",
+      "source": "hooman"
+    },
+    {
+      "app_name": "hevy",
+      "source": "hooman"
+    },
+    {
+      "app_name": "hevy",
+      "source": "kveld"
+    },
+    {
+      "app_name": "dialer",
+      "source": "hooman"
+    },
+    {
+      "app_name": "tiktok",
+      "source": "kveld"
+    },
+    {
+      "app_name": "pinterest",
+      "source": "binarymend"
+    },
+    {
+      "app_name": "splitwise",
+      "source": "bufferk"
+    },
+    {
+      "app_name": "truecaller",
+      "source": "bufferk"
+    },
+    {
+      "app_name": "truecaller",
+      "source": "binarymend"
+    },
+    {
+      "app_name": "solid",
+      "source": "xtra"
+    },
+    {
+      "app_name": "backdrop",
+      "source": "xtra"
+    },
+    {
+      "app_name": "autosync",
+      "source": "xtra"
     }
   ]
 }

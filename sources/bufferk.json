@@ -1,0 +1,15 @@
+[
+    {
+        "name": "bufferk"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "bufferk",
+        "repo": "morphe-patches",
+        "tag": "latest"
+    }
+]
