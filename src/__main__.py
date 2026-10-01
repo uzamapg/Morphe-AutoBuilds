@@ -262,6 +262,7 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                 morphe_cmd = [
                     "java", "-jar", str(cli),
                     "patch", "--patches", str(patches),
+                    "--continue-on-error",
                     "--out", str(output_apk), str(input_apk),
                     *exclude_patches, *include_patches
                 ]
