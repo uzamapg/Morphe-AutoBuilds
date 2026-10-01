@@ -647,6 +647,362 @@
     {
       "app_name": "autosync",
       "source": "xtra"
+    },
+    {
+      "app_name": "photoshop-mix",
+      "source": "devanced"
+    },
+    {
+      "app_name": "amazon-shopping",
+      "source": "devanced"
+    },
+    {
+      "app_name": "amazon-music",
+      "source": "devanced"
+    },
+    {
+      "app_name": "bandcamp",
+      "source": "devanced"
+    },
+    {
+      "app_name": "angulus",
+      "source": "devanced"
+    },
+    {
+      "app_name": "google-recorder",
+      "source": "devanced"
+    },
+    {
+      "app_name": "hexeditor",
+      "source": "devanced"
+    },
+    {
+      "app_name": "officelens",
+      "source": "devanced"
+    },
+    {
+      "app_name": "nothing-x",
+      "source": "devanced"
+    },
+    {
+      "app_name": "gmx-mail",
+      "source": "devanced"
+    },
+    {
+      "app_name": "irplus",
+      "source": "devanced"
+    },
+    {
+      "app_name": "nu",
+      "source": "devanced"
+    },
+    {
+      "app_name": "cricbuzz",
+      "source": "devanced"
+    },
+    {
+      "app_name": "peacock",
+      "source": "devanced"
+    },
+    {
+      "app_name": "viber",
+      "source": "devanced"
+    },
+    {
+      "app_name": "paramount",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "hbo-max",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "tubi",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "plex",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "pluto-tv",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "rain",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "univision",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "foxone",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "amazon-video",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "espn",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "atbat",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "rte-player",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "peacock",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "kleinanzeigen",
+      "source": "docbt"
+    },
+    {
+      "app_name": "perplexity",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "audible",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "dubox",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "etsy",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "kick",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "file-explorer",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "vimo",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "gamma",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "atlas-maps",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "expressweather",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "showly2",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "realme-link",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "notesnook",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "trainline",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "smartcamera",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "klassikradio",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "readera",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "proton-pass",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "atvtools",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "cxxdroid",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "jvdroid",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "photoeditor",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "forus",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "hinducalendar",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "blurwallpaper",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "alpinequest",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "quranify",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "gymtracker",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "pillo",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "yazio",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "fatsecret",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "strength",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "parcels",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "medsafe",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "shapeupclub",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "ornament",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "sonyliv",
+      "source": "chiggi"
+    },
+    {
+      "app_name": "hotstar",
+      "source": "chiggi"
+    },
+    {
+      "app_name": "jiotvplus",
+      "source": "chiggi"
+    },
+    {
+      "app_name": "crazygames",
+      "source": "chiggi"
+    },
+    {
+      "app_name": "vimtv",
+      "source": "chiggi"
+    },
+    {
+      "app_name": "google-photos",
+      "source": "devanced"
+    },
+    {
+      "app_name": "icon-pack-studio",
+      "source": "devanced"
+    },
+    {
+      "app_name": "letterboxd",
+      "source": "devanced"
+    },
+    {
+      "app_name": "photomath",
+      "source": "devanced"
+    },
+    {
+      "app_name": "pixiv",
+      "source": "devanced"
+    },
+    {
+      "app_name": "messenger",
+      "source": "devanced"
+    },
+    {
+      "app_name": "strava",
+      "source": "devanced"
+    },
+    {
+      "app_name": "twitch",
+      "source": "devanced"
+    },
+    {
+      "app_name": "disney-plus",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "twitch",
+      "source": "androidtv"
+    },
+    {
+      "app_name": "aiocal",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "proton-mail",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "proton-vpn",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "pydroid",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "retro-music",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "vpnify",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "soundcloud",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "lyfta",
+      "source": "kondratjev"
+    },
+    {
+      "app_name": "threads",
+      "source": "chiggi"
     }
   ]
 }
