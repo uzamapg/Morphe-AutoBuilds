@@ -181,6 +181,11 @@ def download_platform(
         # - Else if override provided (retry path): try only that.
         # - Else ask the patching CLI for compatible versions and try those.
         # - If none returned: fall back to latest available from the store.
+        #
+        # Only fall back to the store's latest when the CLI named no compatible
+        # version. Adding it as an extra candidate is harmful: the CLI tells us
+        # which build the fingerprints were matched against, so a different
+        # version downloads fine and then silently applies zero patches.
         pinned = (config.get("version") or "").strip()
         if override_version:
             candidates = [override_version]
@@ -188,12 +193,17 @@ def download_platform(
             candidates = [pinned]
         else:
             candidates = utils.get_supported_versions(config["package"], cli, patches)
-            try:
-                latest = platform_module.get_latest_version(app_name, config)
-                if latest and latest not in candidates:
-                    candidates.append(latest)
-            except Exception as e:
-                logging.debug(f"Could not get latest version for {app_name} on {platform}: {e}")
+            if not candidates:
+                try:
+                    latest = platform_module.get_latest_version(app_name, config)
+                    if latest:
+                        logging.warning(
+                            f"No patch-compatible version for {app_name} on {platform}; "
+                            f"falling back to store latest {latest} (patches may not apply)"
+                        )
+                        candidates.append(latest)
+                except Exception as e:
+                    logging.debug(f"Could not get latest version for {app_name} on {platform}: {e}")
 
         last_error: Exception | None = None
         for version in candidates:

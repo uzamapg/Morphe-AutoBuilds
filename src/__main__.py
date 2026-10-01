@@ -266,7 +266,17 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                     "--out", str(output_apk), str(input_apk),
                     *exclude_patches, *include_patches
                 ]
-                utils.run_process(morphe_cmd, capture=True, stream=True)
+                patch_output = utils.run_process(morphe_cmd, capture=True, stream=True)
+                # A build where the patcher applied nothing is worse than no build:
+                # it ships a stock APK under a "patched" name. --continue-on-error
+                # makes such a run exit 0, so check the reported patch count.
+                applied = re.search(r"Applying (\d+) patch", patch_output or "")
+                if applied and int(applied.group(1)) == 0:
+                    raise RuntimeError(
+                        f"Patch bundle applied 0 patches to {app_name} v{version}. "
+                        f"The base APK does not match the fingerprints this source "
+                        f"targets, so the output would be an unpatched app. Refusing to publish it."
+                    )
             else:
                 logging.info("🔧 Using ReVanced patching system...")
                 cli_name = Path(cli).name.lower()
@@ -296,6 +306,13 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
 
             if attempt_idx < len(versions_to_try) - 1 and _should_retry_with_older_version(getattr(e, "output", None)):
                 continue
+            raise
+        except RuntimeError as e:
+            # Zero patches applied (or no signer). Never leave the stock APK
+            # behind: the artifact step would happily upload it as patched.
+            input_apk.unlink(missing_ok=True)
+            output_apk.unlink(missing_ok=True)
+            logging.error(f"❌ {e}")
             raise
 
         # Patch succeeded -> cleanup input and sign.
