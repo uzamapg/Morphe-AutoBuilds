@@ -1,0 +1,15 @@
+[
+    {
+        "name": "ftl"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "BlazeFTL",
+        "repo": "FTL-Patches",
+        "tag": "latest"
+    }
+]

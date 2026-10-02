@@ -1,0 +1,15 @@
+[
+    {
+        "name": "okish"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "byehi98",
+        "repo": "okish-morphe-patches",
+        "tag": "latest"
+    }
+]

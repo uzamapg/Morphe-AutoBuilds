@@ -1,0 +1,15 @@
+[
+    {
+        "name": "dudeks"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "dawidd612",
+        "repo": "dudeks-morphe-patches",
+        "tag": "latest"
+    }
+]

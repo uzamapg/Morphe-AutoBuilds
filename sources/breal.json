@@ -1,0 +1,15 @@
+[
+    {
+        "name": "breal"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "brealorg",
+        "repo": "breal-morphe-patches",
+        "tag": "latest"
+    }
+]

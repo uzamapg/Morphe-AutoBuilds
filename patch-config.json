@@ -317,10 +317,6 @@
       "source": "taknok"
     },
     {
-      "app_name": "windscribe",
-      "source": "rushiranpise-dev"
-    },
-    {
       "app_name": "x-new",
       "source": "piko-newx"
     },
@@ -987,6 +983,1086 @@
     {
       "app_name": "x",
       "source": "piko-newx"
+    },
+    {
+      "app_name": "perplexity",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "proton-mail",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "proton-vpn",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "simplex",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "xingseus",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "alltrails",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "claude",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "peak",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "brave",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "canva",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "row",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "coinidentifyer",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "deepl",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "dubox",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "duolingo",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "pvzfreerow",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "hungry-shark-evolution",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "hill-climb",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "flightradar24",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "bard",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "google-docs",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "google-maps",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "google-photos",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "dialer",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "dantheman",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "fruitninja",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "jetpackjoyride",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "templerun2",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "euria",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "camscanner",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "subwaysurf",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "doodle-jump",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "memrise",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "photomath",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "mx-player-tv",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "mx-player",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "shadowfight",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "shades",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "specialedition",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "shadowfight3",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "shadowfightarena",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "vector2",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "stellarium-2",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "stellarium-free",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "altosadventure",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "chatgpt",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "pinterest",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "guessthecountry",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "geometryjump",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "baba",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "shazam",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "snapchat",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "soundcloud",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "spotify",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "strava",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "truecaller",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "hungrysharkheroes",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "hungrysharkworld",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "googleplay",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "lat",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "waze",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "windscribe",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "windy",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "bitwarden",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "crossyroad",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "ads",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "tutanota",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "turbovpn",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "vpn",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "drive",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "privacy",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "messenger-2",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "firefox",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "client",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "telegram-2",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "securesms",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "vlc",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "speedtest",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "proton-pass",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "twitch",
+      "source": "dmoniak"
+    },
+    {
+      "app_name": "adda247",
+      "source": "okish"
+    },
+    {
+      "app_name": "drdriving",
+      "source": "okish"
+    },
+    {
+      "app_name": "haaktestb",
+      "source": "okish"
+    },
+    {
+      "app_name": "documentscanner",
+      "source": "okish"
+    },
+    {
+      "app_name": "gp",
+      "source": "okish"
+    },
+    {
+      "app_name": "hill-climb-2",
+      "source": "okish"
+    },
+    {
+      "app_name": "freejobalert",
+      "source": "okish"
+    },
+    {
+      "app_name": "truecloud",
+      "source": "okish"
+    },
+    {
+      "app_name": "dantheman-2",
+      "source": "okish"
+    },
+    {
+      "app_name": "jetpackjoyride-2",
+      "source": "okish"
+    },
+    {
+      "app_name": "bighunter",
+      "source": "okish"
+    },
+    {
+      "app_name": "google",
+      "source": "okish"
+    },
+    {
+      "app_name": "doodle-jump-2",
+      "source": "okish"
+    },
+    {
+      "app_name": "lumina",
+      "source": "okish"
+    },
+    {
+      "app_name": "deadtrigger",
+      "source": "okish"
+    },
+    {
+      "app_name": "smashhit",
+      "source": "okish"
+    },
+    {
+      "app_name": "plagueinc",
+      "source": "okish"
+    },
+    {
+      "app_name": "vector",
+      "source": "okish"
+    },
+    {
+      "app_name": "altosadventure-2",
+      "source": "okish"
+    },
+    {
+      "app_name": "altosodyssey",
+      "source": "okish"
+    },
+    {
+      "app_name": "earntodie2",
+      "source": "okish"
+    },
+    {
+      "app_name": "fancypants",
+      "source": "okish"
+    },
+    {
+      "app_name": "play",
+      "source": "okish"
+    },
+    {
+      "app_name": "onlyone",
+      "source": "okish"
+    },
+    {
+      "app_name": "aliensdrivemecrazy",
+      "source": "okish"
+    },
+    {
+      "app_name": "d-r",
+      "source": "okish"
+    },
+    {
+      "app_name": "trafficracer",
+      "source": "okish"
+    },
+    {
+      "app_name": "trafficrider",
+      "source": "okish"
+    },
+    {
+      "app_name": "swordigo",
+      "source": "okish"
+    },
+    {
+      "app_name": "platform",
+      "source": "okish"
+    },
+    {
+      "app_name": "injustice",
+      "source": "okish"
+    },
+    {
+      "app_name": "crossyroad-2",
+      "source": "okish"
+    },
+    {
+      "app_name": "safari",
+      "source": "okish"
+    },
+    {
+      "app_name": "swiftbackup",
+      "source": "okish"
+    },
+    {
+      "app_name": "missiles",
+      "source": "okish"
+    },
+    {
+      "app_name": "boxbox",
+      "source": "heval"
+    },
+    {
+      "app_name": "remote",
+      "source": "heval"
+    },
+    {
+      "app_name": "anydesk",
+      "source": "heval"
+    },
+    {
+      "app_name": "brave",
+      "source": "heval"
+    },
+    {
+      "app_name": "futbin",
+      "source": "heval"
+    },
+    {
+      "app_name": "jetaudio",
+      "source": "heval"
+    },
+    {
+      "app_name": "livescore",
+      "source": "heval"
+    },
+    {
+      "app_name": "fotmob",
+      "source": "heval"
+    },
+    {
+      "app_name": "monefy",
+      "source": "heval"
+    },
+    {
+      "app_name": "myfitnesspal",
+      "source": "heval"
+    },
+    {
+      "app_name": "p-c-w",
+      "source": "heval"
+    },
+    {
+      "app_name": "bluecoins",
+      "source": "heval"
+    },
+    {
+      "app_name": "scores365",
+      "source": "heval"
+    },
+    {
+      "app_name": "sofascore",
+      "source": "heval"
+    },
+    {
+      "app_name": "textra",
+      "source": "heval"
+    },
+    {
+      "app_name": "weather24",
+      "source": "heval"
+    },
+    {
+      "app_name": "iliga",
+      "source": "heval"
+    },
+    {
+      "app_name": "note",
+      "source": "heval"
+    },
+    {
+      "app_name": "email",
+      "source": "heval"
+    },
+    {
+      "app_name": "flashscore",
+      "source": "heval"
+    },
+    {
+      "app_name": "librepods",
+      "source": "heval"
+    },
+    {
+      "app_name": "saphelink",
+      "source": "heval"
+    },
+    {
+      "app_name": "tasker",
+      "source": "heval"
+    },
+    {
+      "app_name": "osmand",
+      "source": "heval"
+    },
+    {
+      "app_name": "fishbuddyplayground",
+      "source": "heval"
+    },
+    {
+      "app_name": "aquamail",
+      "source": "heval"
+    },
+    {
+      "app_name": "iptv",
+      "source": "heval"
+    },
+    {
+      "app_name": "proxyevery",
+      "source": "lain"
+    },
+    {
+      "app_name": "pixel-studio",
+      "source": "lain"
+    },
+    {
+      "app_name": "sketchbook",
+      "source": "lain"
+    },
+    {
+      "app_name": "audioconnect",
+      "source": "lain"
+    },
+    {
+      "app_name": "sets",
+      "source": "lain"
+    },
+    {
+      "app_name": "hermitcrab",
+      "source": "lain"
+    },
+    {
+      "app_name": "boorusama",
+      "source": "lain"
+    },
+    {
+      "app_name": "camera",
+      "source": "lain"
+    },
+    {
+      "app_name": "cinema",
+      "source": "lain"
+    },
+    {
+      "app_name": "epic",
+      "source": "lain"
+    },
+    {
+      "app_name": "fakegpslocation",
+      "source": "lain"
+    },
+    {
+      "app_name": "www",
+      "source": "lain"
+    },
+    {
+      "app_name": "pixellab",
+      "source": "lain"
+    },
+    {
+      "app_name": "timestampcamerafree",
+      "source": "lain"
+    },
+    {
+      "app_name": "timestampcamerafreeent",
+      "source": "lain"
+    },
+    {
+      "app_name": "science",
+      "source": "lain"
+    },
+    {
+      "app_name": "cing",
+      "source": "lain"
+    },
+    {
+      "app_name": "medibangpro",
+      "source": "lain"
+    },
+    {
+      "app_name": "tablet",
+      "source": "lain"
+    },
+    {
+      "app_name": "udisc",
+      "source": "lain"
+    },
+    {
+      "app_name": "superproxy",
+      "source": "lain"
+    },
+    {
+      "app_name": "photofancie",
+      "source": "lain"
+    },
+    {
+      "app_name": "mangaplus",
+      "source": "lain"
+    },
+    {
+      "app_name": "keymate",
+      "source": "lain"
+    },
+    {
+      "app_name": "chatboost",
+      "source": "lain"
+    },
+    {
+      "app_name": "trackit",
+      "source": "jouss"
+    },
+    {
+      "app_name": "proton-vpn",
+      "source": "jouss"
+    },
+    {
+      "app_name": "macrodroid",
+      "source": "jouss"
+    },
+    {
+      "app_name": "alarmo",
+      "source": "jouss"
+    },
+    {
+      "app_name": "starsense",
+      "source": "jouss"
+    },
+    {
+      "app_name": "cricbuzz",
+      "source": "jouss"
+    },
+    {
+      "app_name": "documentscanner",
+      "source": "jouss"
+    },
+    {
+      "app_name": "eyecon",
+      "source": "jouss"
+    },
+    {
+      "app_name": "vn",
+      "source": "jouss"
+    },
+    {
+      "app_name": "lumina",
+      "source": "jouss"
+    },
+    {
+      "app_name": "mark",
+      "source": "jouss"
+    },
+    {
+      "app_name": "videoplayer",
+      "source": "jouss"
+    },
+    {
+      "app_name": "fing",
+      "source": "jouss"
+    },
+    {
+      "app_name": "taskmanager",
+      "source": "jouss"
+    },
+    {
+      "app_name": "prompter",
+      "source": "jouss"
+    },
+    {
+      "app_name": "ticktick",
+      "source": "jouss"
+    },
+    {
+      "app_name": "truecaller",
+      "source": "jouss"
+    },
+    {
+      "app_name": "vivredarija",
+      "source": "jouss"
+    },
+    {
+      "app_name": "sdmse",
+      "source": "jouss"
+    },
+    {
+      "app_name": "crex",
+      "source": "jouss"
+    },
+    {
+      "app_name": "hotstar",
+      "source": "jouss"
+    },
+    {
+      "app_name": "telegram",
+      "source": "jouss"
+    },
+    {
+      "app_name": "plus",
+      "source": "jouss"
+    },
+    {
+      "app_name": "reddit-2",
+      "source": "breal"
+    },
+    {
+      "app_name": "redditdonation",
+      "source": "breal"
+    },
+    {
+      "app_name": "imgur",
+      "source": "breal"
+    },
+    {
+      "app_name": "redditsync",
+      "source": "breal"
+    },
+    {
+      "app_name": "redditsync-2",
+      "source": "breal"
+    },
+    {
+      "app_name": "redditsync-3",
+      "source": "breal"
+    },
+    {
+      "app_name": "baconreader",
+      "source": "breal"
+    },
+    {
+      "app_name": "premium",
+      "source": "breal"
+    },
+    {
+      "app_name": "reddit-3",
+      "source": "breal"
+    },
+    {
+      "app_name": "news",
+      "source": "breal"
+    },
+    {
+      "app_name": "lemmysync",
+      "source": "breal"
+    },
+    {
+      "app_name": "redditslide",
+      "source": "breal"
+    },
+    {
+      "app_name": "patreon",
+      "source": "breal"
+    },
+    {
+      "app_name": "plus-2",
+      "source": "breal"
+    },
+    {
+      "app_name": "joey",
+      "source": "breal"
+    },
+    {
+      "app_name": "joey-2",
+      "source": "breal"
+    },
+    {
+      "app_name": "joey-3",
+      "source": "breal"
+    },
+    {
+      "app_name": "continuum",
+      "source": "breal"
+    },
+    {
+      "app_name": "news-2",
+      "source": "breal"
+    },
+    {
+      "app_name": "decompile",
+      "source": "epxec"
+    },
+    {
+      "app_name": "vtubestudio",
+      "source": "epxec"
+    },
+    {
+      "app_name": "wallet",
+      "source": "epxec"
+    },
+    {
+      "app_name": "xeq",
+      "source": "epxec"
+    },
+    {
+      "app_name": "freereels",
+      "source": "epxec"
+    },
+    {
+      "app_name": "fast",
+      "source": "epxec"
+    },
+    {
+      "app_name": "dictionary",
+      "source": "epxec"
+    },
+    {
+      "app_name": "touch",
+      "source": "epxec"
+    },
+    {
+      "app_name": "wavelet",
+      "source": "epxec"
+    },
+    {
+      "app_name": "textbasedrpg",
+      "source": "epxec"
+    },
+    {
+      "app_name": "vaultyfree",
+      "source": "epxec"
+    },
+    {
+      "app_name": "dailyreminder",
+      "source": "epxec"
+    },
+    {
+      "app_name": "jpnews",
+      "source": "epxec"
+    },
+    {
+      "app_name": "daylio",
+      "source": "epxec"
+    },
+    {
+      "app_name": "fitness",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "boostcamp",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "appv2",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "method",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "fst7",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "juggernautai",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "myoadapt",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "hypertrophy",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "bromleyapp",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "thenx",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "trainwiseapp",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "cbum",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "videoplayer-2",
+      "source": "xhehab"
+    },
+    {
+      "app_name": "klikk",
+      "source": "media"
+    },
+    {
+      "app_name": "klikk-2",
+      "source": "media"
+    },
+    {
+      "app_name": "toffee",
+      "source": "media"
+    },
+    {
+      "app_name": "bongobd",
+      "source": "media"
+    },
+    {
+      "app_name": "bongobdandroidtv",
+      "source": "media"
+    },
+    {
+      "app_name": "shadhin",
+      "source": "media"
+    },
+    {
+      "app_name": "deeptotv",
+      "source": "media"
+    },
+    {
+      "app_name": "deeptotvapp",
+      "source": "media"
+    },
+    {
+      "app_name": "kabbik",
+      "source": "media"
+    },
+    {
+      "app_name": "prothomalo",
+      "source": "media"
+    },
+    {
+      "app_name": "chorki",
+      "source": "media"
+    },
+    {
+      "app_name": "wifianalyzerpro",
+      "source": "ftl"
+    },
+    {
+      "app_name": "planner",
+      "source": "ftl"
+    },
+    {
+      "app_name": "printflow",
+      "source": "ftl"
+    },
+    {
+      "app_name": "bn",
+      "source": "ftl"
+    },
+    {
+      "app_name": "mx-player-2",
+      "source": "ftl"
+    },
+    {
+      "app_name": "wpswpatester",
+      "source": "ftl"
+    },
+    {
+      "app_name": "wpsapppro",
+      "source": "ftl"
+    },
+    {
+      "app_name": "filemanager",
+      "source": "ftl"
+    },
+    {
+      "app_name": "videodownloader",
+      "source": "ftl"
+    },
+    {
+      "app_name": "downloader",
+      "source": "ftl"
+    },
+    {
+      "app_name": "calendar",
+      "source": "dudeks"
+    },
+    {
+      "app_name": "instagram",
+      "source": "dudeks"
+    },
+    {
+      "app_name": "gardenscapes",
+      "source": "dudeks"
+    },
+    {
+      "app_name": "coffeebusiness",
+      "source": "dudeks"
+    },
+    {
+      "app_name": "pizzabusiness",
+      "source": "dudeks"
+    },
+    {
+      "app_name": "tiktok",
+      "source": "dudeks"
+    },
+    {
+      "app_name": "andropods",
+      "source": "dudeks"
+    },
+    {
+      "app_name": "github",
+      "source": "chirag"
+    },
+    {
+      "app_name": "google-news",
+      "source": "chirag"
+    },
+    {
+      "app_name": "creativeassistant",
+      "source": "chirag"
+    },
+    {
+      "app_name": "truecaller",
+      "source": "chirag"
+    },
+    {
+      "app_name": "gboard",
+      "source": "adobo"
+    },
+    {
+      "app_name": "reddit",
+      "source": "adobo"
     }
   ]
 }

@@ -1,0 +1,15 @@
+[
+    {
+        "name": "media"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "HellLord77",
+        "repo": "media-patches",
+        "tag": "latest"
+    }
+]

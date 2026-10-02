@@ -1,0 +1,15 @@
+[
+    {
+        "name": "epxec"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "epxec",
+        "repo": "android-patches",
+        "tag": "latest"
+    }
+]
