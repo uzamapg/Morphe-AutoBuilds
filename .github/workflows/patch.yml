@@ -135,7 +135,7 @@ jobs:
           echo "Matrix: $MATRIX" | head -c 1000
 
   build-apps:
-    name: Build Applications
+    name: Build Applications (shard ${{ matrix.shard }}/32)
     needs: patch-apps
     runs-on: ubuntu-latest
     services:
@@ -149,8 +149,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJson(needs.patch-apps.outputs.matrix) }}
-    
+        # GitHub caps one workflow matrix at 256 jobs and we are well past
+        # that, so a job-per-app matrix would silently produce no jobs at all.
+        # Each of these 32 shards takes an even slice of the build matrix and
+        # works through it; a failing app is recorded and the shard carries on.
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -177,46 +182,74 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build APK
+      - name: Build This Shard's APKs
         env:
-          APP_NAME: ${{ matrix.app_name }}
-          SOURCE: ${{ matrix.source }}
-          ARCH: ${{ matrix.arch }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRAWL_URL: http://localhost:8191
+          SHARD: ${{ matrix.shard }}
+          SHARD_COUNT: 32
         run: |
-          echo "Building ${{ matrix.app_name }} with ${{ matrix.source }}..."
-          sleep $((RANDOM % 30)).$((RANDOM % 100))
-          
-          python -m src
+          set -uo pipefail
 
-      - name: Record Build Outputs
-        if: always()
-        env:
-          APP_NAME: ${{ matrix.app_name }}
-          SOURCE: ${{ matrix.source }}
-        run: |
-          mkdir -p build_records
-          # Record every produced APK so manifest can map (app, source, arch) -> filename
-          for apk in *.apk; do
-            [ -e "$apk" ] || continue
-            # record_build.py now detects arch from filename automatically
-            APK_PATH="$apk" python scripts/record_build.py || true
-          done
-          echo "Records produced:"
-          ls -la build_records/ 2>/dev/null || echo "(no records)"
+          echo '${{ needs.patch-apps.outputs.matrix }}' > matrix.json
+          jq -c --argjson s "$SHARD" --argjson t "$SHARD_COUNT" \
+             'to_entries | map(select(.key % $t == $s)) | map(.value)' \
+             matrix.json > shard.json
+          jq -r '.[] | [.app_name, .source, (.arch // "universal")] | @tsv' \
+             shard.json > shard.tsv
 
-      - name: Upload APK Artifact
+          total=$(wc -l < shard.tsv | tr -d ' ')
+          echo "shard $SHARD/$SHARD_COUNT -> $total build(s)"
+          if [ "$total" -eq 0 ]; then
+            echo "Nothing assigned to this shard."
+            exit 0
+          fi
+
+          mkdir -p all-apks build_records
+          failures=0
+          n=0
+          while IFS=$'\t' read -r APP_NAME SOURCE ARCH; do
+            [ -n "$APP_NAME" ] || continue
+            n=$((n + 1))
+            echo ""
+            echo "=== [$n/$total] $APP_NAME / $SOURCE / $ARCH ==="
+            sleep $((RANDOM % 5))
+            rm -f ./*.apk
+            rm -rf build_records
+            mkdir -p build_records
+            export APP_NAME SOURCE ARCH
+            if python -m src; then
+              for apk in ./*.apk; do
+                [ -e "$apk" ] || continue
+                APK_PATH="$apk" python scripts/record_build.py || true
+                mv -f "$apk" "all-apks/$(basename "$apk")"
+              done
+            else
+              echo "### FAILED: $APP_NAME / $SOURCE / $ARCH"
+              echo "::error::build failed for $APP_NAME / $SOURCE / $ARCH"
+              failures=$((failures + 1))
+            fi
+          done < shard.tsv
+
+          built=$(ls -1 all-apks/*.apk 2>/dev/null | wc -l | tr -d ' ')
+          echo ""
+          echo "shard $SHARD: built $built apk(s), $failures failure(s)"
+          if [ "$failures" -gt 0 ]; then
+            exit 1
+          fi
+
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-          name: apk-${{ matrix.app_name }}-${{ matrix.source }}
-          path: "*.apk"
+          name: apk-shard-${{ matrix.shard }}
+          path: all-apks/*.apk
+          if-no-files-found: ignore
 
       - name: Upload Build Records
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-records-${{ matrix.app_name }}-${{ matrix.source }}
+          name: build-records-shard-${{ matrix.shard }}
           path: build_records/
           if-no-files-found: ignore
 
