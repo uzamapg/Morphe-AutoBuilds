@@ -13,7 +13,39 @@ from src import (
     apkcombo,
 )
 
-def download_resource(url: str, name: str = None) -> Path:
+def _is_transient(exc: Exception) -> bool:
+    """True for failures that plausibly succeed on a second attempt.
+
+    DNS/TLS interception and dropped connections show up here (one CI run hit
+    `certificate subject name 'dotcom.glb' does not match target hostname
+    'github.com'` while fetching bundles), as do timeouts and 5xx. A 4xx is
+    the remote telling us the resource is not there, so retrying is pointless.
+    """
+    response = getattr(exc, "response", None)
+    if response is not None:
+        status = getattr(response, "status_code", None)
+        if isinstance(status, int) and status < 500:
+            return False
+    return True
+
+
+def download_resource(url: str, name: str = None, attempts: int = 4) -> Path:
+    for attempt in range(1, attempts + 1):
+        try:
+            return _download_once(url, name)
+        except Exception as exc:
+            if attempt == attempts or not _is_transient(exc):
+                raise
+            wait = min(2 ** attempt, 30)
+            logging.warning(
+                f"download of {url} failed ({type(exc).__name__}: {exc}); "
+                f"retry {attempt}/{attempts - 1} in {wait}s"
+            )
+            time.sleep(wait)
+    raise RuntimeError("unreachable")  # pragma: no cover
+
+
+def _download_once(url: str, name: str = None) -> Path:
     res = session.get(url, stream=True)
     res.raise_for_status()
     final_url = res.url

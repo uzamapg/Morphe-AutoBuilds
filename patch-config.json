@@ -53,10 +53,6 @@
       "source": "Hoo"
     },
     {
-      "app_name": "pydroid",
-      "source": "Hoo"
-    },
-    {
       "app_name": "snorelab",
       "source": "Hoo"
     },
@@ -121,10 +117,6 @@
       "source": "Hoo"
     },
     {
-      "app_name": "bussu",
-      "source": "Hoo"
-    },
-    {
       "app_name": "number",
       "source": "revanced-kitadai31"
     },
@@ -147,10 +139,6 @@
     {
       "app_name": "tasker",
       "source": "dropped"
-    },
-    {
-      "app_name": "icon-pack-studio",
-      "source": "rookie"
     },
     {
       "app_name": "my-expenses",
@@ -197,20 +185,12 @@
       "source": "brosssh"
     },
     {
-      "app_name": "telegram",
-      "source": "paresh"
-    },
-    {
       "app_name": "park4night",
       "source": "brosssh"
     },
     {
       "app_name": "komoot",
       "source": "brosssh"
-    },
-    {
-      "app_name": "nova",
-      "source": "rushiranpise"
     },
     {
       "app_name": "ticktick",
@@ -297,10 +277,6 @@
       "source": "Hoo"
     },
     {
-      "app_name": "wps-office",
-      "source": "Hoo"
-    },
-    {
       "app_name": "ibs_paint",
       "source": "Hoo"
     },
@@ -315,10 +291,6 @@
     {
       "app_name": "dialer",
       "source": "taknok"
-    },
-    {
-      "app_name": "x-new",
-      "source": "piko-newx"
     },
     {
       "app_name": "gboard",
@@ -877,10 +849,6 @@
       "source": "devanced"
     },
     {
-      "app_name": "icon-pack-studio",
-      "source": "devanced"
-    },
-    {
       "app_name": "letterboxd",
       "source": "devanced"
     },
@@ -925,10 +893,6 @@
       "source": "hxreborn"
     },
     {
-      "app_name": "pydroid",
-      "source": "hxreborn"
-    },
-    {
       "app_name": "retro-music",
       "source": "hxreborn"
     },
@@ -963,14 +927,6 @@
     {
       "app_name": "google-news",
       "source": "docbt"
-    },
-    {
-      "app_name": "busuu",
-      "source": "Hoo"
-    },
-    {
-      "app_name": "phone",
-      "source": "hooman"
     },
     {
       "app_name": "transit",
@@ -1325,10 +1281,6 @@
       "source": "okish"
     },
     {
-      "app_name": "hill-climb-2",
-      "source": "okish"
-    },
-    {
       "app_name": "freejobalert",
       "source": "okish"
     },
@@ -1337,23 +1289,11 @@
       "source": "okish"
     },
     {
-      "app_name": "dantheman-2",
-      "source": "okish"
-    },
-    {
-      "app_name": "jetpackjoyride-2",
-      "source": "okish"
-    },
-    {
       "app_name": "bighunter",
       "source": "okish"
     },
     {
       "app_name": "google",
-      "source": "okish"
-    },
-    {
-      "app_name": "doodle-jump-2",
       "source": "okish"
     },
     {
@@ -1374,10 +1314,6 @@
     },
     {
       "app_name": "vector",
-      "source": "okish"
-    },
-    {
-      "app_name": "altosadventure-2",
       "source": "okish"
     },
     {
@@ -1426,10 +1362,6 @@
     },
     {
       "app_name": "injustice",
-      "source": "okish"
-    },
-    {
-      "app_name": "crossyroad-2",
       "source": "okish"
     },
     {
@@ -1629,10 +1561,6 @@
       "source": "lain"
     },
     {
-      "app_name": "udisc",
-      "source": "lain"
-    },
-    {
       "app_name": "superproxy",
       "source": "lain"
     },
@@ -1737,10 +1665,6 @@
       "source": "jouss"
     },
     {
-      "app_name": "telegram",
-      "source": "jouss"
-    },
-    {
       "app_name": "plus",
       "source": "jouss"
     },
@@ -1778,10 +1702,6 @@
     },
     {
       "app_name": "reddit-3",
-      "source": "breal"
-    },
-    {
-      "app_name": "news",
       "source": "breal"
     },
     {
@@ -1989,10 +1909,6 @@
       "source": "ftl"
     },
     {
-      "app_name": "mx-player-2",
-      "source": "ftl"
-    },
-    {
       "app_name": "wpswpatester",
       "source": "ftl"
     },
@@ -2063,6 +1979,54 @@
     {
       "app_name": "reddit",
       "source": "adobo"
+    },
+    {
+      "app_name": "hill-climb",
+      "source": "okish"
+    },
+    {
+      "app_name": "dantheman",
+      "source": "okish"
+    },
+    {
+      "app_name": "jetpackjoyride",
+      "source": "okish"
+    },
+    {
+      "app_name": "doodle-jump",
+      "source": "okish"
+    },
+    {
+      "app_name": "mx-player",
+      "source": "ftl"
+    },
+    {
+      "app_name": "altosadventure",
+      "source": "okish"
+    },
+    {
+      "app_name": "crossyroad",
+      "source": "okish"
+    },
+    {
+      "app_name": "busuu",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "nova",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "telegram",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "wps-office",
+      "source": "revanced-kitadai31"
+    },
+    {
+      "app_name": "udisc",
+      "source": "rushiranpise"
     }
   ]
 }
