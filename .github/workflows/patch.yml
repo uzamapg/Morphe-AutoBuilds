@@ -195,7 +195,7 @@ jobs:
           jq -c --argjson s "$SHARD" --argjson t "$SHARD_COUNT" \
              'to_entries | map(select(.key % $t == $s)) | map(.value)' \
              matrix.json > shard.json
-          jq -r '.[] | [.app_name, .source, (.arch // "universal")] | @tsv' \
+          jq -r '.[] | [.app_name, .source, (.arch // "")] | @tsv' \
              shard.json > shard.tsv
 
           total=$(wc -l < shard.tsv | tr -d ' ')
@@ -217,7 +217,13 @@ jobs:
             rm -f ./*.apk
             rm -rf build_records
             mkdir -p build_records
-            export APP_NAME SOURCE ARCH
+            export APP_NAME SOURCE
+            # src/__main__.py ignores arch-config.json whenever ARCH is set in
+            # the environment ("if not getenv('ARCH')"), and the planner strips
+            # arch from matrix entries. So ARCH must be left UNSET here -
+            # defaulting it to "universal" silently downgraded every arch-split
+            # app in arch-config.json to a universal build.
+            if [ -n "$ARCH" ]; then export ARCH; else unset ARCH; fi
             if python -m src; then
               for apk in ./*.apk; do
                 [ -e "$apk" ] || continue
