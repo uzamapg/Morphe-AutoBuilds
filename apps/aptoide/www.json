@@ -1,5 +1,6 @@
 {
   "name": "www",
   "package": "com.ilovepdf.www",
-  "version": ""
+  "version": "",
+  "arch": "arm64-v8a"
 }

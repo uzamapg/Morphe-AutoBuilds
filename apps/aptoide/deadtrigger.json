@@ -1,5 +1,6 @@
 {
   "name": "deadtrigger",
   "package": "com.madfingergames.deadtrigger",
-  "version": ""
+  "version": "",
+  "arch": "arm64-v8a"
 }

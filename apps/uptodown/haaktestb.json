@@ -1,5 +1,6 @@
 {
   "name": "haaktestb",
   "package": "com.blingame.haaktestb",
-  "version": ""
+  "version": "",
+  "arch": "arm64-v8a"
 }

@@ -1,5 +1,6 @@
 {
   "name": "safari",
   "package": "com.yodo1.rodeo.safari",
-  "version": ""
+  "version": "",
+  "arch": "arm64-v8a"
 }
