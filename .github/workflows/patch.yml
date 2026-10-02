@@ -437,7 +437,34 @@ jobs:
           echo "📦 Releasing $apk_count APK(s)..."
 
           # Build the asset list: APKs + optional manifest.json
-          ASSETS=( ./release-apks/*.apk )
+          #
+          # GitHub rejects any release asset of 2 GiB or more with
+          # "HTTP 422 Validation Failed / size must be less than 2147483648",
+          # and gh release upload aborts the whole batch on the first failure.
+          # One oversized APK (a 2.1 GB Prince of Persia build did this) was
+          # enough to lose an entire release, so oversized files are dropped
+          # here, loudly, and everything else still ships.
+          OVERSIZE=2147483648
+          ASSETS=()
+          dropped=0
+          for apk in ./release-apks/*.apk; do
+            [ -f "$apk" ] || continue
+            size=$(stat -c%s "$apk")
+            if [ "$size" -ge "$OVERSIZE" ]; then
+              echo "::warning::skipping $(basename "$apk") - $size bytes exceeds GitHub's 2 GiB release asset limit"
+              dropped=$((dropped + 1))
+              continue
+            fi
+            ASSETS+=( "$apk" )
+          done
+          echo "📦 ${#ASSETS[@]} APK(s) to upload, $dropped skipped as too large"
+          if [ "$dropped" -gt 0 ]; then
+            echo "$dropped app(s) are too large for GitHub release assets; their patch-config entries should be removed." >&2
+          fi
+          if [ "${#ASSETS[@]}" -eq 0 ]; then
+            echo "::error::every rebuilt APK was too large to publish"
+            exit 1
+          fi
           if [ -f ./release-apks/manifest.json ]; then
             ASSETS+=( ./release-apks/manifest.json )
             echo "📎 Including manifest.json"

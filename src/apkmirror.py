@@ -267,7 +267,9 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
         
     target_arch = arch if (arch and arch != "universal") else config.get('arch', 'universal')
     
-    criteria = [config['type'], target_arch, config['dpi']]
+    # Default rather than KeyError: a half-filled config should cost us this
+    # one store, not the whole build with "Unexpected error: 'type'".
+    criteria = [config.get('type', 'APK'), target_arch, config.get('dpi', 'nodpi')]
     
     # --- UNIVERSAL URL FINDER WITH VALIDATION ---
     # Extract build number if present (e.g., "32.30.0(1575420)" -> version="32.30.0", build="1575420")
