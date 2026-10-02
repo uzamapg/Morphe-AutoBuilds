@@ -4,6 +4,6 @@
   "type": "APK",
   "arch": "universal",
   "dpi": "nodpi",
-  "package": "com.pokecardex.mobile",
+  "package": "com.application.pokecardex",
   "version": ""
 }

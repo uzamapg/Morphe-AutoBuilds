@@ -304,6 +304,38 @@ def get_supported_versions(package_name: str, cli: str, patches: str) -> list[st
     return versions
 
 
+def bundle_covers_package(package_name: str, cli: str, patches: str) -> tuple[bool, bool]:
+    """Ask the patch bundle whether it knows ``package_name`` at all.
+
+    Returns ``(covers_package, any_version)``.
+
+    ``get_supported_versions`` returns ``[]`` for two very different cases, and
+    only one of them may fall back to the store's latest build:
+
+    * the bundle ships patches for the package but declares no specific
+      version ("Any") - then any release works, and latest is correct;
+    * the bundle dropped the package entirely - then latest produces an APK the
+      patches cannot touch.
+
+    Only the first case may fall back.
+    """
+    out = run_process(
+        ["java", "-jar", cli, "list-patches", "--with-packages", "--with-versions", patches],
+        capture=True, silent=True, check=False,
+    ) or ""
+
+    found_any = False
+    for line in out.splitlines():
+        if package_name not in line:
+            continue
+        found_any = True
+        # A concrete version on the same line means the bundle pins one.
+        if any(tok[0].isdigit() for tok in line.split() if tok):
+            return True, False
+
+    return found_any, found_any
+
+
 def get_supported_version(package_name: str, cli: str, patches: str) -> Optional[str]:
     """Backwards compatible helper: returns the highest compatible version, if any."""
     versions = get_supported_versions(package_name, cli, patches)

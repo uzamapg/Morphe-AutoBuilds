@@ -21,10 +21,6 @@
       "source": "piko"
     },
     {
-      "app_name": "pinterest",
-      "source": "adobo"
-    },
-    {
       "app_name": "soundcloud",
       "source": "Hoo"
     },
@@ -81,16 +77,8 @@
       "source": "rookie"
     },
     {
-      "app_name": "disney-plus",
-      "source": "rookie"
-    },
-    {
       "app_name": "duolingo",
       "source": "Hoo"
-    },
-    {
-      "app_name": "google-news",
-      "source": "rookie"
     },
     {
       "app_name": "messenger",
@@ -109,19 +97,11 @@
       "source": "Hoo"
     },
     {
-      "app_name": "proton-mail",
-      "source": "rookie"
-    },
-    {
       "app_name": "proton-vpn",
       "source": "Hoo"
     },
     {
       "app_name": "meme",
-      "source": "Hoo"
-    },
-    {
-      "app_name": "aiocal",
       "source": "Hoo"
     },
     {
@@ -161,24 +141,8 @@
       "source": "Hoo"
     },
     {
-      "app_name": "rar",
-      "source": "rookie"
-    },
-    {
       "app_name": "strava",
       "source": "rookie"
-    },
-    {
-      "app_name": "tumblr",
-      "source": "rookie"
-    },
-    {
-      "app_name": "threads",
-      "source": "rookie"
-    },
-    {
-      "app_name": "crunchyroll",
-      "source": "Hoo"
     },
     {
       "app_name": "tasker",
@@ -209,10 +173,6 @@
       "source": "Hoo"
     },
     {
-      "app_name": "teuida",
-      "source": "Hoo"
-    },
-    {
       "app_name": "sofascore",
       "source": "Hoo"
     },
@@ -223,10 +183,6 @@
     {
       "app_name": "windy",
       "source": "Hoo"
-    },
-    {
-      "app_name": "calistree",
-      "source": "brosssh"
     },
     {
       "app_name": "webster",
@@ -250,14 +206,6 @@
     },
     {
       "app_name": "komoot",
-      "source": "brosssh"
-    },
-    {
-      "app_name": "hevy",
-      "source": "brosssh"
-    },
-    {
-      "app_name": "geocaching",
       "source": "brosssh"
     },
     {
@@ -1003,6 +951,42 @@
     {
       "app_name": "threads",
       "source": "chiggi"
+    },
+    {
+      "app_name": "crunchyroll",
+      "source": "revanced-kitadai31"
+    },
+    {
+      "app_name": "teuida",
+      "source": "revanced-kitadai31"
+    },
+    {
+      "app_name": "rar",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "google-news",
+      "source": "docbt"
+    },
+    {
+      "app_name": "busuu",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "phone",
+      "source": "hooman"
+    },
+    {
+      "app_name": "transit",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "x",
+      "source": "piko"
+    },
+    {
+      "app_name": "x",
+      "source": "piko-newx"
     }
   ]
 }

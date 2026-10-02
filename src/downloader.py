@@ -194,12 +194,23 @@ def download_platform(
         else:
             candidates = utils.get_supported_versions(config["package"], cli, patches)
             if not candidates:
+                # [] means either "bundle supports this app at any version" or
+                # "bundle does not support this app at all". Only the first may
+                # fall back to the store's newest build; in the second case that
+                # build cannot be patched at all.
+                covers, _any = utils.bundle_covers_package(config["package"], cli, patches)
+                if not covers:
+                    raise ValueError(
+                        f"Patch source has no patches for {config['package']} ({app_name}). "
+                        f"The source dropped this app; remove the entry from patch-config "
+                        f"or pick a source that still supports it."
+                    )
                 try:
                     latest = platform_module.get_latest_version(app_name, config)
                     if latest:
                         logging.warning(
-                            f"No patch-compatible version for {app_name} on {platform}; "
-                            f"falling back to store latest {latest} (patches may not apply)"
+                            f"Patch bundle does not pin a version for {app_name}; "
+                            f"using store latest {latest}"
                         )
                         candidates.append(latest)
                 except Exception as e:
