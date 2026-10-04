@@ -201,7 +201,7 @@
       "source": "paresh"
     },
     {
-      "app_name": "documentscanner",
+      "app_name": "camscanner-fast",
       "source": "paresh"
     },
     {
@@ -237,7 +237,7 @@
       "source": "paresh"
     },
     {
-      "app_name": "vn",
+      "app_name": "vlog",
       "source": "paresh"
     },
     {
@@ -469,11 +469,11 @@
       "source": "binarymend"
     },
     {
-      "app_name": "nis",
+      "app_name": "inshorts",
       "source": "xtra"
     },
     {
-      "app_name": "stellarium",
+      "app_name": "sky-tonight",
       "source": "xtra"
     },
     {
@@ -609,7 +609,7 @@
       "source": "devanced"
     },
     {
-      "app_name": "nu",
+      "app_name": "nu-nl",
       "source": "devanced"
     },
     {
@@ -981,7 +981,7 @@
       "source": "dmoniak"
     },
     {
-      "app_name": "row",
+      "app_name": "robbery-bob",
       "source": "dmoniak"
     },
     {
@@ -1109,7 +1109,7 @@
       "source": "dmoniak"
     },
     {
-      "app_name": "stellarium-2",
+      "app_name": "stellarium",
       "source": "dmoniak"
     },
     {
@@ -1177,7 +1177,7 @@
       "source": "dmoniak"
     },
     {
-      "app_name": "lat",
+      "app_name": "lat-vpn",
       "source": "dmoniak"
     },
     {
@@ -1201,7 +1201,7 @@
       "source": "dmoniak"
     },
     {
-      "app_name": "ads",
+      "app_name": "crash-of-titans",
       "source": "dmoniak"
     },
     {
@@ -1213,7 +1213,7 @@
       "source": "dmoniak"
     },
     {
-      "app_name": "vpn",
+      "app_name": "hideme-vpn",
       "source": "dmoniak"
     },
     {
@@ -1225,7 +1225,7 @@
       "source": "dmoniak"
     },
     {
-      "app_name": "messenger-2",
+      "app_name": "loki-messenger",
       "source": "dmoniak"
     },
     {
@@ -1237,7 +1237,7 @@
       "source": "dmoniak"
     },
     {
-      "app_name": "telegram-2",
+      "app_name": "telegram",
       "source": "dmoniak"
     },
     {
@@ -1273,11 +1273,11 @@
       "source": "okish"
     },
     {
-      "app_name": "documentscanner",
+      "app_name": "camscanner-fast",
       "source": "okish"
     },
     {
-      "app_name": "gp",
+      "app_name": "tentacle-wars",
       "source": "okish"
     },
     {
@@ -1293,7 +1293,7 @@
       "source": "okish"
     },
     {
-      "app_name": "google",
+      "app_name": "burrito-bison-3",
       "source": "okish"
     },
     {
@@ -1337,7 +1337,7 @@
       "source": "okish"
     },
     {
-      "app_name": "d-r",
+      "app_name": "into-the-dead",
       "source": "okish"
     },
     {
@@ -1357,7 +1357,7 @@
       "source": "okish"
     },
     {
-      "app_name": "safari",
+      "app_name": "rodeo-safari",
       "source": "okish"
     },
     {
@@ -1521,7 +1521,7 @@
       "source": "lain"
     },
     {
-      "app_name": "www",
+      "app_name": "ilovepdf",
       "source": "lain"
     },
     {
@@ -1597,7 +1597,7 @@
       "source": "jouss"
     },
     {
-      "app_name": "documentscanner",
+      "app_name": "camscanner-fast",
       "source": "jouss"
     },
     {
@@ -1605,7 +1605,7 @@
       "source": "jouss"
     },
     {
-      "app_name": "vn",
+      "app_name": "vlog",
       "source": "jouss"
     },
     {
@@ -1673,11 +1673,11 @@
       "source": "breal"
     },
     {
-      "app_name": "redditsync-2",
+      "app_name": "reddit-sync-dev",
       "source": "breal"
     },
     {
-      "app_name": "redditsync-3",
+      "app_name": "reddit-sync-pro",
       "source": "breal"
     },
     {
@@ -1697,7 +1697,7 @@
       "source": "breal"
     },
     {
-      "app_name": "plus-2",
+      "app_name": "infinity-for-reddit-plus",
       "source": "breal"
     },
     {
@@ -1705,11 +1705,11 @@
       "source": "breal"
     },
     {
-      "app_name": "joey-2",
+      "app_name": "joey-dev",
       "source": "breal"
     },
     {
-      "app_name": "joey-3",
+      "app_name": "joey-pro",
       "source": "breal"
     },
     {
@@ -1717,7 +1717,7 @@
       "source": "breal"
     },
     {
-      "app_name": "news-2",
+      "app_name": "relay-for-reddit",
       "source": "breal"
     },
     {
@@ -1825,7 +1825,7 @@
       "source": "xhehab"
     },
     {
-      "app_name": "videoplayer-2",
+      "app_name": "video-player",
       "source": "xhehab"
     },
     {
@@ -1833,7 +1833,7 @@
       "source": "media"
     },
     {
-      "app_name": "klikk-2",
+      "app_name": "klikk-tv",
       "source": "media"
     },
     {
@@ -1885,7 +1885,7 @@
       "source": "ftl"
     },
     {
-      "app_name": "bn",
+      "app_name": "bangla-dictionary",
       "source": "ftl"
     },
     {
@@ -1997,7 +1997,7 @@
       "source": "Hoo"
     },
     {
-      "app_name": "telegram",
+      "app_name": "telegram-web",
       "source": "rushiranpise"
     },
     {

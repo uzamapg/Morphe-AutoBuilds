@@ -1,0 +1,9 @@
+{
+  "org": "lufick",
+  "name": "camscanner-fast",
+  "type": "BUNDLE",
+  "arch": "universal",
+  "dpi": "nodpi",
+  "package": "com.cv.docscanner",
+  "version": ""
+}
