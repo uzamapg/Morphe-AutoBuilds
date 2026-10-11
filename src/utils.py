@@ -197,7 +197,18 @@ def get_highest_version(versions: list[str]) -> str | None:
             highest_version = v
     return highest_version
 
-def get_supported_versions(package_name: str, cli: str, patches: str) -> list[str]:
+def get_supported_versions(package_name: str, cli: str, patches: str) -> Optional[list[str]]:
+    """Return the app versions the patch bundle declares compatibility with.
+
+    Returns:
+        list[str]: specific compatible versions, highest first. The caller must
+            build one of these and must NOT fall back to the store's latest.
+        []: the CLI query succeeded but no specific versions were declared
+            (patches are version-agnostic); building latest is safe.
+        None: the CLI query itself failed, so patch compatibility is unknown.
+            The caller must NOT build; guessing latest risks shipping a build
+            with silently skipped patches.
+    """
     # Morphe CLI and ReVanced CLI have different list-versions syntax
     cli_name = Path(cli).name.lower()
     is_morphe_cli = 'morphe' in cli_name
@@ -238,7 +249,7 @@ def get_supported_versions(package_name: str, cli: str, patches: str) -> list[st
 
     if not output:
         logging.warning("No output returned from list-versions command")
-        return []
+        return None
 
     lines = output.splitlines()
     logging.info(f"CLI raw output lines: {lines}")
@@ -247,7 +258,7 @@ def get_supported_versions(package_name: str, cli: str, patches: str) -> list[st
     first_line = lines[0].strip().lower()
     if 'usage:' in first_line or 'unmatched argument' in first_line or 'error' in first_line:
         logging.warning(f"CLI returned error/usage output, cannot determine version")
-        return []
+        return None
 
     if len(lines) <= 2:
         logging.warning("Output has no version lines")
@@ -337,7 +348,10 @@ def bundle_covers_package(package_name: str, cli: str, patches: str) -> tuple[bo
 
 
 def get_supported_version(package_name: str, cli: str, patches: str) -> Optional[str]:
-    """Backwards compatible helper: returns the highest compatible version, if any."""
+    """Backwards compatible helper: returns the highest compatible version, if any.
+
+    Returns None when the CLI query fails OR when patches are version-agnostic.
+    """
     versions = get_supported_versions(package_name, cli, patches)
     return versions[0] if versions else None
 
@@ -630,47 +644,50 @@ def check_apk_integrity(apk_path: Path) -> bool:
         return False
 
 
-def ensure_usable_apk(apk_path: Path, app_name: str, version: str) -> Path | None:
-    """Return ``apk_path`` if it passes the integrity check.
+BUNDLE_SUFFIXES = (".xapk", ".apks", ".apkm")
 
-    Otherwise attempt a ``zip -FF`` repair and re-check.  A file that is
-    still corrupt afterwards is deleted and ``None`` is returned so the
-    caller can try another download source instead of feeding a broken
-    APK to the patcher (which crashes with an obscure NPE).
-    """
-    if check_apk_integrity(apk_path):
-        return apk_path
 
-    logging.warning(f"APK integrity check failed for {apk_path.name}; attempting repair with zip -FF")
-    if not shutil.which("zip"):
-        logging.warning("zip command not available for repair")
-        apk_path.unlink(missing_ok=True)
-        return None
-
-    fixed_apk = apk_path.with_name(f"{app_name}-fixed-v{version}.apk")
-    fixed_apk.unlink(missing_ok=True)
+def _is_bundle(path: Path) -> bool:
+    """Return True if the file is an APK bundle (XAPK/APKS/APKM or a zip
+    containing APK files). Bundle containers are not Android-signed; the
+    APK inside is."""
+    if not path or not path.exists():
+        return False
+    if path.suffix.lower() in BUNDLE_SUFFIXES:
+        return True
     try:
-        subprocess.run(
-            ["zip", "-FF", str(apk_path), "--out", str(fixed_apk)],
-            check=False, capture_output=True, timeout=120,
-            stdin=subprocess.DEVNULL,
-        )
-    except subprocess.TimeoutExpired:
-        logging.warning("zip -FF repair timed out; discarding download")
-        apk_path.unlink(missing_ok=True)
-        fixed_apk.unlink(missing_ok=True)
+        if zipfile.is_zipfile(path):
+            with zipfile.ZipFile(path, "r") as z:
+                return any(n.lower().endswith(".apk") for n in z.namelist())
+    except Exception:
+        pass
+    return False
+
+
+def ensure_usable_apk(apk_path: Path, app_name: str, version: str) -> Path | None:
+    """Return ``apk_path`` if it is a usable download.
+
+    Follows the pattern of proven auto-builders (e.g. nikhilbadyal/docker-py-revanced):
+    only verify the file is a valid zip archive. Do NOT check Android signatures
+    here: bundle containers (XAPK/APKS/APKM) are not signed, and the patcher
+    itself reports truly unusable input. Signature pre-checks caused good
+    downloads to be discarded.
+
+    Bundle files pass through for the downstream APKEditor merge; standalone
+    APKs pass through for direct patching.
+    """
+    if not apk_path or not apk_path.exists() or apk_path.stat().st_size == 0:
+        logging.warning(f"Download missing or empty for {app_name}; discarding")
         return None
-    if not (fixed_apk.exists() and fixed_apk.stat().st_size > 0):
-        logging.warning("Repair produced no usable file; discarding download")
+
+    if not check_apk_integrity(apk_path):
+        logging.warning(f"Download {apk_path.name} is not a valid zip; discarding")
         apk_path.unlink(missing_ok=True)
         return None
 
-    apk_path.unlink(missing_ok=True)
-    fixed_apk.rename(apk_path)
-    if check_apk_integrity(apk_path):
-        logging.info("APK repaired successfully and passes integrity check")
-        return apk_path
+    if _is_bundle(apk_path):
+        logging.info(f"Bundle {apk_path.name} passes zip integrity; leaving for APKEditor merge")
+    else:
+        logging.info(f"APK {apk_path.name} passes zip integrity check")
 
-    logging.warning("APK still fails integrity check after zip -FF repair; discarding download")
-    apk_path.unlink(missing_ok=True)
-    return None
+    return apk_path

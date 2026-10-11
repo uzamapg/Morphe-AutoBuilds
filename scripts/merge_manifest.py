@@ -36,6 +36,12 @@ def main() -> int:
                 continue
             key = rec.get("key")
             apk = rec.get("apk", "")
+            # A frozen record means every download source failed for that
+            # (app, source, arch): keep any existing APK/built_version, promote
+            # the pending source signature (so the planner stops re-scheduling
+            # the pair every run) and mark the entry frozen. Only a real build
+            # record clears the frozen marker.
+            frozen = bool(rec.get("frozen"))
             # resolved_version is the version actually embedded in the built APK
             # filename (extracted by record_build.py). Propagate it as
             # 'built_version' so check_app_updates.py can detect on the next run
@@ -57,6 +63,15 @@ def main() -> int:
                     "built_version": "",
                 }
                 entries[key] = entry
+            if frozen:
+                entry["frozen"] = True
+                pending_sig = entry.get("pending_source_sig", "")
+                if pending_sig:
+                    entry["source_sig"] = pending_sig
+                    entry.pop("pending_source_sig", None)
+                print(f"  frozen {key} - kept apk={entry.get('apk')!r} built_version={entry.get('built_version')!r}")
+                continue
+            entry.pop("frozen", None)
             if apk:
                 entry["apk"] = apk
             if resolved_version:

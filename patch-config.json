@@ -2007,6 +2007,114 @@
     {
       "app_name": "udisc",
       "source": "rushiranpise"
+    },
+    {
+      "app_name": "pinterest",
+      "source": "adobo"
+    },
+    {
+      "app_name": "niagara",
+      "source": "d0nj"
+    },
+    {
+      "app_name": "pydroid",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "google-photos",
+      "source": "akash-photos"
+    },
+    {
+      "app_name": "disney-plus",
+      "source": "aimal"
+    },
+    {
+      "app_name": "google-news",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "messenger",
+      "source": "hushmessenger"
+    },
+    {
+      "app_name": "pixiv",
+      "source": "fripe070"
+    },
+    {
+      "app_name": "aiocal",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "bussu",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "strava",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "tumblr",
+      "source": "hoomans"
+    },
+    {
+      "app_name": "crunchyroll",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "icon-pack-studio",
+      "source": "devanced"
+    },
+    {
+      "app_name": "teuida",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "calistree",
+      "source": "brosssh"
+    },
+    {
+      "app_name": "telegram",
+      "source": "paresh"
+    },
+    {
+      "app_name": "hevy",
+      "source": "brosssh"
+    },
+    {
+      "app_name": "geocaching",
+      "source": "brosssh"
+    },
+    {
+      "app_name": "nova",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "documentscanner",
+      "source": "paresh"
+    },
+    {
+      "app_name": "vn",
+      "source": "paresh"
+    },
+    {
+      "app_name": "trakt",
+      "source": "pixelpusher"
+    },
+    {
+      "app_name": "letterboxd",
+      "source": "kim20598"
+    },
+    {
+      "app_name": "wps-office",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "windscribe",
+      "source": "rushiranpise-dev"
+    },
+    {
+      "app_name": "x-new",
+      "source": "piko-newx"
     }
   ]
 }
