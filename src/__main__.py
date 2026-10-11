@@ -13,6 +13,40 @@ from src import (
     downloader
 )
 
+
+class FreezeBuild(Exception):
+    """Raised when every download store failed to deliver a build for an
+    (app, source) pair whose patches pin a specific version.
+
+    A frozen pair keeps any existing APK in the release, gets a freeze record
+    written (so the planner stops re-scheduling it every run), and does NOT
+    fail the CI shard: the run stays green.
+    """
+
+
+def _write_freeze_records(app_name: str, source: str, arches: list[str]) -> None:
+    """Write one freeze record per arch so merge_manifest.py can promote the
+    pending source signature without touching any existing APK."""
+    rec_dir = Path("freeze_records")
+    rec_dir.mkdir(parents=True, exist_ok=True)
+    reason = "all download sources failed to supply a build; kept existing APK"
+    for arch in arches:
+        record = {
+            "frozen": True,
+            "key": f"{app_name}|{source}|{arch}",
+            "app_name": app_name,
+            "source": source,
+            "arch": arch,
+            "reason": reason,
+        }
+        safe = f"{app_name}__{source}__{arch}".replace("/", "_")
+        with (rec_dir / f"{safe}.json").open("w", encoding="utf-8") as f:
+            json.dump(record, f, indent=2)
+    logging.warning(
+        f"🧊 Frozen {app_name}/{source} - {len(arches)} freeze record(s) written; "
+        f"existing APK (if any) is kept in the release."
+    )
+
 def _should_retry_with_older_version(output: str | None) -> bool:
     """Detect common patterns that indicate the chosen app version is not
     actually compatible with the selected patches (fingerprint mismatch, etc.)."""
@@ -108,6 +142,8 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
         downloader.download_uptodown,
         downloader.download_apkpure,
         downloader.download_apkcombo,
+        downloader.download_apkfab,
+        downloader.download_codeberg,
     ]
 
     input_apk = None
@@ -131,7 +167,7 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
     if input_apk is None or not used_method or not version:
         logging.error(f"❌ Failed to download APK for {app_name}")
         logging.error("All download sources failed. Skipping this app.")
-        return None
+        raise FreezeBuild(app_name)
 
     # Try the downloaded version first, then (if available) older compatible
     # versions from the patch set. This prevents a single bad/overstated
@@ -377,12 +413,21 @@ def main():
         
         # Build for each architecture
         built_apks = []
+        frozen = False
         for arch in arches:
             logging.info(f"🔨 Building {app_name} for {arch} architecture...")
-            apk_path = run_build(app_name, source, arch)
+            try:
+                apk_path = run_build(app_name, source, arch)
+            except FreezeBuild:
+                frozen = True
+                continue
             if apk_path:
                 built_apks.append(apk_path)
                 print(f"✅ Built {arch} version: {Path(apk_path).name}")
+
+        if frozen and not built_apks:
+            _write_freeze_records(app_name, source, arches)
+            print(f"🧊 Frozen {app_name}/{source}: every download source failed to supply a build")
         
         # Summary
         print(f"\n🎯 Built {len(built_apks)} APK(s) for {app_name}:")
@@ -392,7 +437,12 @@ def main():
     else:
         # Fallback to single universal build
         logging.warning("arch-config.json not found, building universal only")
-        apk_path = run_build(app_name, source, "universal")
+        apk_path = None
+        try:
+            apk_path = run_build(app_name, source, "universal")
+        except FreezeBuild:
+            _write_freeze_records(app_name, source, ["universal"])
+            print(f"🧊 Frozen {app_name}/{source}: every download source failed to supply a build")
         if apk_path:
             print(f"🎯 Final APK path: {apk_path}")
 

@@ -209,10 +209,10 @@ jobs:
           failures=0
           n=0
           while IFS=$'\t' read -r APP_NAME SOURCE ARCH; do
-            [ -n "$APP_NAME" ] || continue
+            [ -n "${APP_NAME:-}" ] || continue
             n=$((n + 1))
             echo ""
-            echo "=== [$n/$total] $APP_NAME / $SOURCE / $ARCH ==="
+            echo "=== [$n/$total] ${APP_NAME:-} / ${SOURCE:-} / ${ARCH:-} ==="
             sleep $((RANDOM % 5))
             rm -f ./*.apk
             rm -rf build_records
@@ -223,7 +223,7 @@ jobs:
             # arch from matrix entries. So ARCH must be left UNSET here -
             # defaulting it to "universal" silently downgraded every arch-split
             # app in arch-config.json to a universal build.
-            if [ -n "$ARCH" ]; then export ARCH; else unset ARCH; fi
+            if [ -n "${ARCH:-}" ]; then export ARCH; else unset ARCH; fi
             if python -m src; then
               for apk in ./*.apk; do
                 [ -e "$apk" ] || continue
@@ -231,8 +231,8 @@ jobs:
                 mv -f "$apk" "all-apks/$(basename "$apk")"
               done
             else
-              echo "### FAILED: $APP_NAME / $SOURCE / $ARCH"
-              echo "::error::build failed for $APP_NAME / $SOURCE / $ARCH"
+              echo "### FAILED: ${APP_NAME:-} / ${SOURCE:-} / ${ARCH:-}"
+              echo "::error::build failed for ${APP_NAME:-} / ${SOURCE:-} / ${ARCH:-}"
               failures=$((failures + 1))
             fi
           done < shard.tsv
@@ -298,10 +298,10 @@ jobs:
           echo "Built APKs: $built_count"
 
           if [ "$built_count" -eq 0 ]; then
-            echo "❌ No rebuilt APKs available"
+            echo "Γ¥î No rebuilt APKs available"
             echo "skip_release=true" >> $GITHUB_OUTPUT
           else
-            echo "✅ $built_count rebuilt APK(s) ready for release"
+            echo "Γ£à $built_count rebuilt APK(s) ready for release"
             echo "skip_release=false" >> $GITHUB_OUTPUT
           fi
       
@@ -309,19 +309,19 @@ jobs:
         if: steps.check-apks.outputs.skip_release == 'false'
         run: |
           mkdir -p ./release-apks
-          echo "📦 Collecting rebuilt APKs..."
+          echo "≡ƒôª Collecting rebuilt APKs..."
           find ./all-apks -name "*.apk" -exec cp -f {} ./release-apks/ \; 2>/dev/null || true
 
-          echo "📁 APKs ready for release:"
+          echo "≡ƒôü APKs ready for release:"
           ls -la ./release-apks/
 
           final_count=$(ls -1 ./release-apks/*.apk 2>/dev/null | wc -l || echo "0")
-          echo "📊 Total APKs: $final_count"
+          echo "≡ƒôè Total APKs: $final_count"
 
       - name: Build Final Manifest
         if: steps.check-apks.outputs.skip_release == 'false'
         run: |
-          echo "🧾 Building manifest.json from build-plan + build records..."
+          echo "≡ƒº╛ Building manifest.json from build-plan + build records..."
           # The new_manifest.json (post-plan baseline) lives in the build-plan artifact
           if [ -f ./build-plan/new_manifest.json ]; then
             cp ./build-plan/new_manifest.json ./new_manifest.json
@@ -332,11 +332,11 @@ jobs:
             find ./all-records -name "*.json" -exec cp {} build_records/ \; 2>/dev/null || true
           fi
           python scripts/merge_manifest.py || {
-            echo "⚠️ merge_manifest.py failed; continuing without manifest update."
+            echo "ΓÜá∩╕Å merge_manifest.py failed; continuing without manifest update."
             rm -f manifest.json
           }
           if [ -f manifest.json ]; then
-            echo "✅ manifest.json built:"
+            echo "Γ£à manifest.json built:"
             jq '.entries | length' manifest.json || true
             cp manifest.json ./release-apks/manifest.json
           fi
@@ -358,10 +358,10 @@ jobs:
         run: |
           if gh release view latest >/dev/null 2>&1; then
             echo "release_exists=true" >> "$GITHUB_OUTPUT"
-            echo "✅ Release 'latest' exists; assets will be updated in place."
+            echo "Γ£à Release 'latest' exists; assets will be updated in place."
           else
             echo "release_exists=false" >> "$GITHUB_OUTPUT"
-            echo "📭 Release 'latest' does not exist; it will be created."
+            echo "≡ƒô¡ Release 'latest' does not exist; it will be created."
           fi
       
       - name: Generate Release Notes
@@ -370,7 +370,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "📝 Generating release notes..."
+          echo "≡ƒô¥ Generating release notes..."
 
           if [ "${{ steps.check-release.outputs.release_exists }}" = "true" ]; then
             gh release view latest --json assets --jq '.assets[].name' > current_assets.txt
@@ -392,7 +392,7 @@ jobs:
           cat > release_notes.md << 'EOF'
           # Morphe APKs - Auto Built
           
-          ## 📱 Available Apps
+          ## ≡ƒô▒ Available Apps
           
           EOF
 
@@ -404,21 +404,21 @@ jobs:
           cat >> release_notes.md << 'EOF'
           ---
           
-          ## ⚙️ Build Information
+          ## ΓÜÖ∩╕Å Build Information
           - **Auto-built daily at 6 AM UTC**
           - **Multiple architecture support** (arm64-v8a, armeabi-v7a, universal)
           - **Latest Morphe patches**
           - **Updated automatically**
           
-          ## 📊 Architecture Guide
+          ## ≡ƒôè Architecture Guide
           - **arm64-v8a**: Modern ARM devices (2014+)
           - **armeabi-v7a**: Older ARM devices
           - **universal**: All ARM devices (larger file)
           
-          ## ⚠️ Disclaimer
+          ## ΓÜá∩╕Å Disclaimer
           These APKs are built automatically. Use at your own risk.
           
-          ## 🔄 Update Schedule
+          ## ≡ƒöä Update Schedule
           - Automatic updates daily at 6 AM UTC
           - Manual updates available via workflow dispatch
           - Creates `latest` if missing and uploads rebuilt assets in place
@@ -430,17 +430,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "🚀 Publishing rebuilt assets to release..."
+          echo "≡ƒÜÇ Publishing rebuilt assets to release..."
 
           # Count APKs
           apk_count=$(ls -1 ./release-apks/*.apk 2>/dev/null | wc -l || echo "0")
 
           if [ $apk_count -eq 0 ]; then
-            echo "❌ No APKs found to release"
+            echo "Γ¥î No APKs found to release"
             exit 1
           fi
 
-          echo "📦 Releasing $apk_count APK(s)..."
+          echo "≡ƒôª Releasing $apk_count APK(s)..."
 
           # Build the asset list: APKs + optional manifest.json
           #
@@ -463,7 +463,7 @@ jobs:
             fi
             ASSETS+=( "$apk" )
           done
-          echo "📦 ${#ASSETS[@]} APK(s) to upload, $dropped skipped as too large"
+          echo "≡ƒôª ${#ASSETS[@]} APK(s) to upload, $dropped skipped as too large"
           if [ "$dropped" -gt 0 ]; then
             echo "$dropped app(s) are too large for GitHub release assets; their patch-config entries should be removed." >&2
           fi
@@ -473,11 +473,11 @@ jobs:
           fi
           if [ -f ./release-apks/manifest.json ]; then
             ASSETS+=( ./release-apks/manifest.json )
-            echo "📎 Including manifest.json"
+            echo "≡ƒôÄ Including manifest.json"
           fi
 
           if [ "${{ steps.check-release.outputs.release_exists }}" = "true" ]; then
-            echo "⬆️ Uploading rebuilt assets in place and refreshing release metadata..."
+            echo "Γ¼å∩╕Å Uploading rebuilt assets in place and refreshing release metadata..."
 
             # Delete superseded older-version APKs. The previous loop only deleted
             # assets whose filename EXACTLY matched a new APK; since APK names
@@ -491,7 +491,7 @@ jobs:
               basename "$apk" >> keep_apks.txt
             done
             python scripts/cleanup_old_apks.py --release latest --keep-file keep_apks.txt || \
-              echo "⚠️  cleanup_old_apks.py failed; continuing with exact-name cleanup"
+              echo "ΓÜá∩╕Å  cleanup_old_apks.py failed; continuing with exact-name cleanup"
 
             # Upload new APKs and manifest
             gh release upload latest "${ASSETS[@]}" --clobber
@@ -499,7 +499,7 @@ jobs:
               --title "Morphe APKs - $(date +'%Y-%m-%d %H:%M')" \
               --notes-file release_notes.md
           else
-            echo "🆕 Creating 'latest' release..."
+            echo "≡ƒåò Creating 'latest' release..."
             gh release create "latest" \
               --title "Morphe APKs - $(date +'%Y-%m-%d %H:%M')" \
               --notes-file release_notes.md \
@@ -507,7 +507,7 @@ jobs:
               --latest
           fi
 
-          echo "✅ Release publish step completed successfully!"
+          echo "Γ£à Release publish step completed successfully!"
       
       - name: Display Release URL
         if: steps.check-apks.outputs.skip_release == 'false'
@@ -516,9 +516,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           release_url=$(gh release view latest --json url --jq .url)
-          echo "🔗 Release URL: $release_url"
+          echo "≡ƒöù Release URL: $release_url"
           echo ""
-          echo "📦 Direct Download Links:"
+          echo "≡ƒôª Direct Download Links:"
           for apk in ./release-apks/*.apk; do
             filename=$(basename "$apk")
             echo "- $filename: $release_url/download/$filename"
