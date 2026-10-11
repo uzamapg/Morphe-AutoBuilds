@@ -15,8 +15,10 @@ from src import (
 
 
 class FreezeBuild(Exception):
-    """Raised when every download store failed to deliver a build for an
-    (app, source) pair whose patches pin a specific version.
+    """Raised when an (app, source) pair genuinely cannot produce a patched
+    build: every download store failed to deliver a compatible APK, or the
+    patch bundle scheduled 0 patches for every candidate version (permanent
+    fingerprint mismatch, e.g. patches pinned to a dead app version).
 
     A frozen pair keeps any existing APK in the release, gets a freeze record
     written (so the planner stops re-scheduling it every run), and does NOT
@@ -308,7 +310,24 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                 # makes such a run exit 0, so check the reported patch count.
                 applied = re.search(r"Applying (\d+) patch", patch_output or "")
                 if applied and int(applied.group(1)) == 0:
-                    raise RuntimeError(
+                    # 0 patches scheduled = the bundle has no fingerprint match
+                    # for this app at this version. Like the CalledProcessError
+                    # retry path below, fall back to an older candidate version
+                    # when one exists; if none does, freeze the pair instead of
+                    # failing the shard.
+                    if attempt_idx < len(versions_to_try) - 1:
+                        logging.warning(
+                            f"0 patches scheduled for {app_name} v{version}; "
+                            f"retrying with older candidate version"
+                        )
+                        input_apk.unlink(missing_ok=True)
+                        output_apk.unlink(missing_ok=True)
+                        continue
+                    # Never leave the stock APK behind: the artifact step would
+                    # happily upload it as patched.
+                    input_apk.unlink(missing_ok=True)
+                    output_apk.unlink(missing_ok=True)
+                    raise FreezeBuild(
                         f"Patch bundle applied 0 patches to {app_name} v{version}. "
                         f"The base APK does not match the fingerprints this source "
                         f"targets, so the output would be an unpatched app. Refusing to publish it."
@@ -344,8 +363,9 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                 continue
             raise
         except RuntimeError as e:
-            # Zero patches applied (or no signer). Never leave the stock APK
-            # behind: the artifact step would happily upload it as patched.
+            # No signer or any other infrastructural failure (the 0-patch case
+            # is handled separately and raised as FreezeBuild). Never leave the
+            # stock APK behind: the artifact step would happily upload it as patched.
             input_apk.unlink(missing_ok=True)
             output_apk.unlink(missing_ok=True)
             logging.error(f"❌ {e}")
@@ -419,15 +439,17 @@ def main():
             try:
                 apk_path = run_build(app_name, source, arch)
             except FreezeBuild:
+                # Write the freeze record for this arch right away so the
+                # planner stops re-scheduling it even when sibling arches build.
+                _write_freeze_records(app_name, source, [arch])
                 frozen = True
                 continue
             if apk_path:
                 built_apks.append(apk_path)
                 print(f"✅ Built {arch} version: {Path(apk_path).name}")
 
-        if frozen and not built_apks:
-            _write_freeze_records(app_name, source, arches)
-            print(f"🧊 Frozen {app_name}/{source}: every download source failed to supply a build")
+        if frozen:
+            print(f"🧊 Frozen {app_name}/{source}: one or more arches could not be built; existing APKs kept")
         
         # Summary
         print(f"\n🎯 Built {len(built_apks)} APK(s) for {app_name}:")
