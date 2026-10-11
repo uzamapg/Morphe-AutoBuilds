@@ -144,6 +144,11 @@ jobs:
         ports:
           - 8191:8191
         options: --shm-size=1gb
+      flaresolverr:
+        image: ghcr.io/flaresolverr/flaresolverr:latest
+        ports:
+          - 8192:8191
+        options: --shm-size=1gb
     permissions:
       contents: write
     strategy:
@@ -182,10 +187,24 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Wait for FlareSolverr
+        run: |
+          set +e
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8192 2>/dev/null)
+            if [ "$code" = "200" ]; then
+              echo "FlareSolverr ready (HTTP 200)."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::warning::FlareSolverr did not become ready; downloads will fall back to direct fetches"
+
       - name: Build This Shard's APKs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRAWL_URL: http://localhost:8191
+          FLARESOLVERR_URL: http://localhost:8192/v1
           SHARD: ${{ matrix.shard }}
           SHARD_COUNT: 32
         run: |
@@ -215,8 +234,6 @@ jobs:
             echo "=== [$n/$total] ${APP_NAME:-} / ${SOURCE:-} / ${ARCH:-} ==="
             sleep $((RANDOM % 5))
             rm -f ./*.apk
-            rm -rf build_records
-            mkdir -p build_records
             export APP_NAME SOURCE
             # src/__main__.py ignores arch-config.json whenever ARCH is set in
             # the environment ("if not getenv('ARCH')"), and the planner strips
@@ -256,7 +273,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-records-shard-${{ matrix.shard }}
-          path: build_records/
+          path: |
+            build_records/
+            freeze_records/
           if-no-files-found: ignore
 
   create-single-release:
