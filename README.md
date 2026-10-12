@@ -3,9 +3,6 @@
 # 🔧 Automated Android Build Pipeline
 
 [![Daily Build](https://img.shields.io/github/actions/workflow/status/uzamapg/Morphe-AutoBuilds/patch.yml?label=Daily%20Build&style=for-the-badge&color=2ea44f)](https://github.com/uzamapg/Morphe-AutoBuilds/actions/workflows/patch.yml)
-[![Python Version](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/github/license/uzamapg/Revanced-AutoBuilds?style=for-the-badge&color=orange)](LICENSE)
-
 
 
 <p align="center">
