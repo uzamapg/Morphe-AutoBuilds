@@ -2111,6 +2111,138 @@
     {
       "app_name": "easy-sudoku",
       "source": "browzomje"
+    },
+    {
+      "app_name": "viber",
+      "source": "canh0chua"
+    },
+    {
+      "app_name": "busuu",
+      "source": "hakim"
+    },
+    {
+      "app_name": "letterboxd",
+      "source": "hakim"
+    },
+    {
+      "app_name": "letterboxd",
+      "source": "mvaishak"
+    },
+    {
+      "app_name": "disney-plus",
+      "source": "pyflat"
+    },
+    {
+      "app_name": "twitch",
+      "source": "ryykitty-twitch"
+    },
+    {
+      "app_name": "kicker",
+      "source": "pyflat"
+    },
+    {
+      "app_name": "swr3",
+      "source": "pyflat"
+    },
+    {
+      "app_name": "adguard",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "ms-teams",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "linkedin",
+      "source": "chirag"
+    },
+    {
+      "app_name": "whatsapp",
+      "source": "chirag"
+    },
+    {
+      "app_name": "acrobat",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "ms-word",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "ms-excel",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "accuweather",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "cpu-z",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "mixplorer",
+      "source": "ftl"
+    },
+    {
+      "app_name": "psiphon",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "imdb",
+      "source": "adobo"
+    },
+    {
+      "app_name": "ninegag",
+      "source": "adobo"
+    },
+    {
+      "app_name": "tomtom",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "calm",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "accubattery",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "cloudflare-one",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "goodreads",
+      "source": "Hoo"
+    },
+    {
+      "app_name": "firefox-fenix",
+      "source": "ftl"
+    },
+    {
+      "app_name": "picsart",
+      "source": "rushiranpise"
+    },
+    {
+      "app_name": "musixmatch",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "imo",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "seven-tv",
+      "source": "hxreborn"
+    },
+    {
+      "app_name": "es-file-explorer",
+      "source": "ftl"
+    },
+    {
+      "app_name": "sleep-android",
+      "source": "Hoo"
     }
   ]
 }
