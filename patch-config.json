@@ -2103,6 +2103,14 @@
     {
       "app_name": "x-new",
       "source": "piko-newx"
+    },
+    {
+      "app_name": "pinterest",
+      "source": "browzomje"
+    },
+    {
+      "app_name": "easy-sudoku",
+      "source": "browzomje"
     }
   ]
 }
