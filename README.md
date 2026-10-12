@@ -2,9 +2,9 @@
 
 # 🔧 Automated Android Build Pipeline
 
-[![Daily Build](https://img.shields.io/github/actions/workflow/status/uzamapg/Morphe-AutoBuilds/patch.yml?label=Daily%20Build&style=for-the-badge&color=2ea44f)](https://github.com/RookieEnough/Morphe-AutoBuilds/actions/workflows/patch.yml)
+[![Daily Build](https://img.shields.io/github/actions/workflow/status/uzamapg/Morphe-AutoBuilds/patch.yml?label=Daily%20Build&style=for-the-badge&color=2ea44f)](https://github.com/uzamapg/Morphe-AutoBuilds/actions/workflows/patch.yml)
 [![Python Version](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/github/license/RookieEnough/Revanced-AutoBuilds?style=for-the-badge&color=orange)](LICENSE)
+[![License](https://img.shields.io/github/license/uzamapg/Revanced-AutoBuilds?style=for-the-badge&color=orange)](LICENSE)
 
 
 
@@ -17,8 +17,8 @@
 A sophisticated, automated pipeline that assembles installable Android applications for <strong>non-rooted devices</strong>. The system fetches build tooling, downloads base APKs from multiple sources, applies community build configurations, and produces architecture-specific outputs.
 </p>
 
-[![Report Bug](https://img.shields.io/badge/Report%20Bug-0A0A0A?style=flat&logo=github&logoColor=white)](https://github.com/RookieEnough/Morphe-AutoBuilds/issues)
-[![Request Feature](https://img.shields.io/badge/Request%20Feature-0A0A0A?style=flat&logo=github&logoColor=white)](https://github.com/RookieEnough/Morphe-AutoBuilds/issues)
+[![Report Bug](https://img.shields.io/badge/Report%20Bug-0A0A0A?style=flat&logo=github&logoColor=white)](https://github.com/uzamapg/Morphe-AutoBuilds/issues)
+[![Request Feature](https://img.shields.io/badge/Request%20Feature-0A0A0A?style=flat&logo=github&logoColor=white)](https://github.com/uzamapg/Morphe-AutoBuilds/issues)
 
 
 </div>
@@ -162,7 +162,7 @@ If you prefer to build the APKs on your own machine, follow these steps.
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/RookieEnough/morphe-AutoBuilds.git
+git clone https://github.com/uzamapg/morphe-AutoBuilds.git
 cd Morphe-AutoBuilds
 
 ```
