@@ -48,7 +48,8 @@ This repository utilizes a robust Python-based pipeline to ensure high reliabili
 
 ---
 
-## 🛠️ Repository Structure
+<details>
+ <summary>## 🛠️ Repository Structure </summary>
 
 ```text
 Morphe-AutoBuilds/
