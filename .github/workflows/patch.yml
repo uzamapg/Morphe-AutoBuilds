@@ -254,7 +254,11 @@ jobs:
             fi
           done < shard.tsv
 
-          built=$(ls -1 all-apks/*.apk 2>/dev/null | wc -l | tr -d ' ')
+          # A shard whose every pair froze legitimately builds nothing. Use find
+          # (which exits 0 on no matches) instead of an `ls` glob: under the
+          # runner's implicit `set -e` + `pipefail`, an unmatched glob aborts the
+          # step with exit 2 and turns a healthy all-frozen shard red.
+          built=$(find all-apks -name '*.apk' 2>/dev/null | wc -l | tr -d ' ')
           echo ""
           echo "shard $SHARD: built $built apk(s), $failures failure(s)"
           if [ "$failures" -gt 0 ]; then
