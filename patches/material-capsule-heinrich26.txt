@@ -1,1 +1,3 @@
++ Pairip Bypass
++ Spoof Play Store Install Source
 + Disable Play Store updates

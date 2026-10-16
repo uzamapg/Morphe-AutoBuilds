@@ -38,3 +38,27 @@ To refresh the fork in the meantime (e.g. upstream pushes another fix to
 `./gradlew :patches:build` (the Android `extensions/` module is not required by
 this patch and can be excluded), then upload the new `patches-*.mpp` to a fresh
 release.
+
+## `heinrich26` also pulls in the Nai64 GitLab bundles
+
+Besides the fork above, `sources/heinrich26.json` lists two GitLab bundles by
+[kmru](https://gitlab.com/kmru):
+
+- **`kmru/nai64patches`** — base bundle. Provides **`Pairip Bypass`**, the fix
+  for Material Capsule's Play Store redirect.
+- **`kmru/nai64extrapatches`** — companion bundle (400+ generic patches). Provides
+  **`Spoof Play Store Install Source`** and other generic spoofs.
+
+**Why:** Material Capsule is protected by **Google Play PairIP**
+(`com.pairip.licensecheck.LicenseClient` / `LicenseActivity`). On a repackaged
+build, PairIP's license check fails and the app redirects to the Play Store.
+`Pairip Bypass` (defaults `localInstallerChecks`, `storeSpoofChecks`,
+`startupLauncherChecks` and `disableFirebase` all `true`) neutralises the
+local installer check, spoofs a Play Store install source and disables the
+PairIP `StartupLauncher` entry points. See
+`patches/material-capsule-heinrich26.txt`.
+
+All patches in both Nai64 bundles are `default = false`, so nothing is
+auto-applied to this app; only the explicitly listed ones run. The second
+bundle is a plain `gitlab` source entry, resolved via the GitLab releases API
+(`releases/permalink/latest`) — no token required, unlike GitHub.

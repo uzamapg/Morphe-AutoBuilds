@@ -3,18 +3,31 @@
         "name": "heinrich26"
     },
     {
+        "provider": "github",
         "user": "MorpheApp",
         "repo": "morphe-cli",
         "tag": "latest"
     },
     {
+        "provider": "github",
         "user": "uzamapg",
         "repo": "morphe-patches",
         "tag": "latest"
     },
     {
+        "provider": "github",
         "user": "MorpheApp",
         "repo": "morphe-patches",
+        "tag": "latest"
+    },
+    {
+        "provider": "gitlab",
+        "project": "kmru/nai64patches",
+        "tag": "latest"
+    },
+    {
+        "provider": "gitlab",
+        "project": "kmru/nai64extrapatches",
         "tag": "latest"
     }
 ]
