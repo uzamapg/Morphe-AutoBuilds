@@ -15,12 +15,6 @@
         "tag": "latest"
     },
     {
-        "provider": "github",
-        "user": "MorpheApp",
-        "repo": "morphe-patches",
-        "tag": "latest"
-    },
-    {
         "provider": "gitlab",
         "project": "kmru/nai64patches",
         "tag": "latest"
@@ -28,6 +22,12 @@
     {
         "provider": "gitlab",
         "project": "kmru/nai64extrapatches",
+        "tag": "latest"
+    },
+    {
+        "provider": "github",
+        "user": "MorpheApp",
+        "repo": "morphe-patches",
         "tag": "latest"
     }
 ]

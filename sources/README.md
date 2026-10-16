@@ -46,19 +46,26 @@ Besides the fork above, `sources/heinrich26.json` lists two GitLab bundles by
 
 - **`kmru/nai64patches`** — base bundle. Provides **`Pairip Bypass`**, the fix
   for Material Capsule's Play Store redirect.
-- **`kmru/nai64extrapatches`** — companion bundle (400+ generic patches). Provides
-  **`Spoof Play Store Install Source`** and other generic spoofs.
+- **`kmru/nai64extrapatches`** — companion bundle (400+ generic patches), a
+  superset of the universal patches. Kept available so individual patches can be
+  reachable for other apps; nothing is auto-applied from it.
 
 **Why:** Material Capsule is protected by **Google Play PairIP**
 (`com.pairip.licensecheck.LicenseClient` / `LicenseActivity`). On a repackaged
 build, PairIP's license check fails and the app redirects to the Play Store.
 `Pairip Bypass` (defaults `localInstallerChecks`, `storeSpoofChecks`,
 `startupLauncherChecks` and `disableFirebase` all `true`) neutralises the
-local installer check, spoofs a Play Store install source and disables the
-PairIP `StartupLauncher` entry points. See
+local installer check and spoofs a Play Store install source. This app has no
+PairIP `StartupLauncher`, so those strategies simply do not match. See
 `patches/material-capsule-heinrich26.txt`.
 
 All patches in both Nai64 bundles are `default = false`, so nothing is
-auto-applied to this app; only the explicitly listed ones run. The second
-bundle is a plain `gitlab` source entry, resolved via the GitLab releases API
+auto-applied to this app; only the explicitly listed ones run. The Nai64
+bundles are plain `gitlab` source entries, resolved via the GitLab releases API
 (`releases/permalink/latest`) — no token required, unlike GitHub.
+
+**Bundle order:** `sources/heinrich26.json` lists the app-specific fork first
+(its `.mpp` is the first one seen, which is what drives version detection),
+then the targeted fix bundles, with the generic upstream `MorpheApp/morphe-patches`
+last. Enable/disable flags are applied per bundle (see `src/__main__.py`), so
+order does not affect which patches can be selected.

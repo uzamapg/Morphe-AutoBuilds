@@ -321,13 +321,23 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
             # USE DIFFERENT COMMANDS BASED ON SOURCE TYPE
             if is_morphe:
                 logging.info("🔧 Using Morphe patching system...")
-                morphe_cmd = [
-                    "java", "-jar", str(cli),
-                    "patch", "--patches", str(patches),
-                    *[arg for extra in patches_list[1:] for arg in ("--patches", str(extra))],
+                # The Morphe CLI scopes -e/-d to the --patches bundle that
+                # precedes them, so a plain trailing list would only ever apply
+                # to the last bundle. With stacked bundles that silently drops
+                # every enable/disable that lives in an earlier bundle (e.g. a
+                # fork: Pairip Bypass in the base set, Unlock Pro in the fork).
+                # Repeating the list after each bundle lets every name resolve
+                # against the bundle that actually defines it; names a given
+                # bundle does not define are ignored by the CLI.
+                morphe_cmd = ["java", "-jar", str(cli), "patch"]
+                for bundle in [patches, *patches_list[1:]]:
+                    morphe_cmd += [
+                        "--patches", str(bundle),
+                        *exclude_patches, *include_patches,
+                    ]
+                morphe_cmd += [
                     "--continue-on-error",
                     "--out", str(output_apk), str(input_apk),
-                    *exclude_patches, *include_patches
                 ]
                 patch_output = utils.run_process(morphe_cmd, capture=True, stream=True)
                 # A build where the patcher applied nothing is worse than no build:
