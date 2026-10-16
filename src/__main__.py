@@ -111,10 +111,25 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
         
         if not cli:
             cli = utils.find_file(download_files, suffix=".jar")
-        patches = utils.find_file(download_files, contains="patches", suffix=".mpp")
+        patches = utils.find_file(download_files, contains="patches", suffix=".mpp", exclude=["sources", "javadoc"])
         if not patches:
             # Fallback to any .mpp file
+            patches = utils.find_file(download_files, suffix=".mpp", exclude=["sources", "javadoc"])
+        if not patches:
             patches = utils.find_file(download_files, suffix=".mpp")
+        # A source may list several bundles (e.g. an app-specific bundle plus the
+        # upstream Morphe bundle providing generic patches). Keep every .mpp in
+        # declaration order: version detection still uses the first (app-specific)
+        # bundle, but the patch command applies all of them. Compilation artefacts
+        # that some releases ship alongside the real bundle (-sources.mpp,
+        # -javadoc.mpp) are not patch bundles and must never be passed to the CLI.
+        patches_list = [
+            f for f in download_files
+            if f.suffix.lower() == ".mpp"
+            and "-sources." not in f.name.lower()
+            and "-javadoc." not in f.name.lower()
+        ]
+        patches_list = [patches] + [p for p in patches_list if p != patches] if patches else patches_list
     else:
         # Find ReVanced files
         cli = utils.find_file(download_files, contains="revanced-cli", suffix=".jar")
@@ -123,6 +138,7 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
         if not patches:
             # Try .jar extension for patches
             patches = utils.find_file(download_files, contains="patches", suffix=".jar")
+        patches_list = [patches] if patches else []
 
     # Validate tools
     if not cli:
@@ -249,11 +265,14 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                         os.replace(input_apk, target_apk)
                         input_apk = target_apk
             else:
-                logging.info(f"Normalizing standalone APK filename to {target_apk.name}")
-                if input_apk != target_apk:
-                    target_apk.unlink(missing_ok=True)
-                    os.replace(input_apk, target_apk)
-                    input_apk = target_apk
+                # Sanitize target filename for Windows
+                sanitized_target = re.sub(r'[\\/*?:"<>|]', '_', target_apk.name)
+                target_apk_clean = target_apk.with_name(sanitized_target)
+                logging.info(f"Normalizing standalone APK filename to {target_apk_clean.name}")
+                if input_apk != target_apk_clean:
+                    target_apk_clean.unlink(missing_ok=True)
+                    os.replace(input_apk, target_apk_clean)
+                    input_apk = target_apk_clean
 
             if not input_apk.exists():
                 logging.error("Processed APK file not found")
@@ -261,9 +280,14 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
 
             # Clean up filename: remove build number like (1575420) and -1575420.
             # Only strip 6+ digit build-number tokens so legitimate short version
-            # segments (e.g. "app-2_0") are not mangled.
+            # segments (e.g. "app-2_0") are not mangled. Also sanitize for
+            # Windows (remove/replace invalid path characters like ':', '?', etc.)
             clean_name = re.sub(r'\(\d+\)', '', input_apk.name)  # Remove (1575420)
             clean_name = re.sub(r'-\d{6,}_', '_', clean_name)  # Remove -1575420_ -> _
+            # Replace invalid Windows filename characters
+            clean_name = re.sub(r'[\\/*?:"<>|]', '_', clean_name)
+            # Collapse multiple underscores/spaces
+            clean_name = re.sub(r'[_\s]+', '_', clean_name)
             if clean_name != input_apk.name:
                 clean_apk = input_apk.with_name(clean_name)
                 clean_apk.unlink(missing_ok=True)
@@ -300,6 +324,7 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                 morphe_cmd = [
                     "java", "-jar", str(cli),
                     "patch", "--patches", str(patches),
+                    *[arg for extra in patches_list[1:] for arg in ("--patches", str(extra))],
                     "--continue-on-error",
                     "--out", str(output_apk), str(input_apk),
                     *exclude_patches, *include_patches

@@ -1,0 +1,20 @@
+[
+    {
+        "name": "heinrich26"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-cli",
+        "tag": "latest"
+    },
+    {
+        "user": "uzamapg",
+        "repo": "morphe-patches",
+        "tag": "latest"
+    },
+    {
+        "user": "MorpheApp",
+        "repo": "morphe-patches",
+        "tag": "latest"
+    }
+]
