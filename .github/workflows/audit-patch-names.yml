@@ -1,0 +1,61 @@
+name: Audit patch names
+
+# patches/*.txt can silently drift: the CLI drops an -e/-d name it does not
+# define for the app's package, and --continue-on-error keeps the build green
+# when a fingerprint fails, so a stale name ships an APK that differs from what
+# the file claims. The build-time guard only covers -e, only for the pair being
+# built, and only after a build has run. This job checks every patch file
+# against the bundles its source ships - both signs, no build - so a rename
+# upstream turns the run red on the same day.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 7 * * *'  # Daily at 07:30 UTC, after the 06:00 build
+  push:
+    paths:
+      - 'patches/**'
+      - 'sources/**'
+      - 'patch-config.json'
+      - 'apps/**'
+      - 'scripts/audit_patch_names.py'
+      - '.github/workflows/audit-patch-names.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: patches/*.txt resolve against their bundles
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Audit patch names
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/audit_patch_names.py | tee audit.txt
+          # CHECK-FAIL means a release lookup, download or list-patches run
+          # broke: nothing was verified, which must not read as a pass.
+          if grep -q 'CHECK-FAIL' audit.txt; then
+            echo "::error::audit could not verify every source (see CHECK-FAIL lines above)"
+            exit 1
+          fi
