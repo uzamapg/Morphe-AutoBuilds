@@ -65,6 +65,12 @@ def main() -> int:
                 entries[key] = entry
             if frozen:
                 entry["frozen"] = True
+                if rec.get("reason"):
+                    # Why the pair froze. The freeze records only live as long
+                    # as the CI artifacts, so copy the reason onto the manifest
+                    # entry; check_app_updates.py carries it forward while the
+                    # entry stays frozen.
+                    entry["freeze_reason"] = rec["reason"]
                 pending_sig = entry.get("pending_source_sig", "")
                 if pending_sig:
                     entry["source_sig"] = pending_sig
@@ -72,6 +78,7 @@ def main() -> int:
                 print(f"  frozen {key} - kept apk={entry.get('apk')!r} built_version={entry.get('built_version')!r}")
                 continue
             entry.pop("frozen", None)
+            entry.pop("freeze_reason", None)
             if apk:
                 entry["apk"] = apk
             if resolved_version:

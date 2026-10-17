@@ -16,9 +16,11 @@ For every patch file the build would actually read (patches/<app_name>-<source>.
     NO-BUNDLE      source ships no .mpp bundle (ReVanced-style source)
     NO-PACKAGE     no apps/<store>/<app>.json package: compatibility unverified
 
-src/__main__._unapplied_requested() logs the -e half of this at build time;
-this script also covers -d and runs without building anything. Run it after any
-source bump, since bundles are renamed upstream.
+src/__main__._unapplied_requested() freezes the pair for the -e half of this at
+build time (no APK is published); this script also covers -d and runs without
+building anything. Run it after any source bump, since bundles are renamed
+upstream; .github/workflows/audit-patch-names.yml runs it daily and on any push
+that touches the patch inputs.
 
 Usage:
     GITHUB_TOKEN=... python scripts/audit_patch_names.py    # exit 1 if findings

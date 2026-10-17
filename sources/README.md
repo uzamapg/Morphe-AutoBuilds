@@ -83,8 +83,12 @@ fingerprint fails. A stale name therefore ships an APK that differs from what
 the file claims, with no error anywhere - this is how the Material Capsule Play
 Store redirect stayed hidden. Two guards exist:
 
-- `src/__main__.py` (`_unapplied_requested`) logs an error when an `-e` name was
-  requested but never reported as `Applied:` during the build.
+- `src/__main__.py` (`_unapplied_requested`) **freezes** the (app, source, arch)
+  pair when an `-e` name was requested but never reported as `Applied:` during
+  the build: no APK is published, the previous APK stays in the release, and
+  the planner skips the pair until a `force_full_rebuild` run thaws it once the
+  patch file is fixed. The reason is kept on the manifest entry as
+  `freeze_reason`.
 - `scripts/audit_patch_names.py` audits every patch file against the bundles its
   source ships and the app's declared `package`, covering `-e` and `-d` without
   building anything. Run it after any source bump, because upstream renames
@@ -93,3 +97,7 @@ Store redirect stayed hidden. Two guards exist:
   YouTube` is now the single `Custom branding` patch):
 
       GITHUB_TOKEN=... python scripts/audit_patch_names.py   # exit 1 on findings
+
+The same audit runs in CI (`.github/workflows/audit-patch-names.yml`) daily and
+on any push touching `patches/`, `sources/`, `patch-config.json` or `apps/`, so
+a stale name turns the run red instead of quietly shipping a different APK.

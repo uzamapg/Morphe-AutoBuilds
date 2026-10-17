@@ -883,12 +883,16 @@ def plan_incremental(full_matrix: List[dict], old_manifest: Optional[dict],
         reasons: List[str] = []
         if old and old.get("frozen") and not FORCE_FULL:
             # Frozen pair: it could not produce a genuine patched build (every
-            # download source failed, or the patch bundle matched no fingerprint
-            # for any candidate version). Keep the last good APK (if any) and do
-            # not re-schedule it every run; only a FORCE_FULL run (or a manual
-            # manifest edit) can thaw it. Still write the current source
-            # signature so any future build stays in sync.
+            # download source failed, the patch bundle matched no fingerprint
+            # for any candidate version, or a requested patch never applied).
+            # Keep the last good APK (if any) and do not re-schedule it every
+            # run; only a FORCE_FULL run (or a manual manifest edit) can thaw
+            # it. Still write the current source signature so any future build
+            # stays in sync, and carry the recorded reason so a frozen entry
+            # stays diagnosable after the CI artifacts have expired.
             new_entries[mkey]["frozen"] = True
+            if old.get("freeze_reason"):
+                new_entries[mkey]["freeze_reason"] = old["freeze_reason"]
             new_entries[mkey]["source_sig"] = cur_src_sig
             if carried_apk:
                 carry_over.append(carried_apk)

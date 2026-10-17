@@ -16,9 +16,11 @@ from src import (
 
 class FreezeBuild(Exception):
     """Raised when an (app, source) pair genuinely cannot produce a patched
-    build: every download store failed to deliver a compatible APK, or the
-    patch bundle scheduled 0 patches for every candidate version (permanent
-    fingerprint mismatch, e.g. patches pinned to a dead app version).
+    build: every download store failed to deliver a compatible APK, the patch
+    bundle scheduled 0 patches for every candidate version (permanent
+    fingerprint mismatch, e.g. patches pinned to a dead app version), or a
+    patch requested by patches/<app>-<source>.txt never applied (a stale or
+    incompatible name - the CLI drops those silently).
 
     A frozen pair keeps any existing APK in the release, gets a freeze record
     written (so the planner stops re-scheduling it every run), and does NOT
@@ -26,12 +28,12 @@ class FreezeBuild(Exception):
     """
 
 
-def _write_freeze_records(app_name: str, source: str, arches: list[str]) -> None:
+def _write_freeze_records(app_name: str, source: str, arches: list[str], reason: str | None = None) -> None:
     """Write one freeze record per arch so merge_manifest.py can promote the
     pending source signature without touching any existing APK."""
     rec_dir = Path("freeze_records")
     rec_dir.mkdir(parents=True, exist_ok=True)
-    reason = "all download sources failed to supply a build; kept existing APK"
+    reason = reason or "all download sources failed to supply a build"
     for arch in arches:
         record = {
             "frozen": True,
@@ -45,8 +47,8 @@ def _write_freeze_records(app_name: str, source: str, arches: list[str]) -> None
         with (rec_dir / f"{safe}.json").open("w", encoding="utf-8") as f:
             json.dump(record, f, indent=2)
     logging.warning(
-        f"🧊 Frozen {app_name}/{source} - {len(arches)} freeze record(s) written; "
-        f"existing APK (if any) is kept in the release."
+        f"🧊 Frozen {app_name}/{source} - {len(arches)} freeze record(s) written: "
+        f"{reason}; existing APK (if any) is kept in the release."
     )
 
 def _should_retry_with_older_version(output: str | None) -> bool:
@@ -214,7 +216,9 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
     if input_apk is None or not used_method or not version:
         logging.error(f"❌ Failed to download APK for {app_name}")
         logging.error("All download sources failed. Skipping this app.")
-        raise FreezeBuild(app_name)
+        raise FreezeBuild(
+            f"all download sources failed to supply a build for {app_name}/{source}"
+        )
 
     # Try the downloaded version first, then (if available) older compatible
     # versions from the patch set. This prevents a single bad/overstated
@@ -397,17 +401,35 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                         f"targets, so the output would be an unpatched app. Refusing to publish it."
                     )
                 # The CLI swallows -e names it does not define for this
-                # package, and --continue-on-error hides fingerprint failures,
-                # so surface loudly anything requested that never ran. Without
-                # this the build looks green while the patch silently never
-                # applied (the failure mode that hid the Material Capsule
-                # Play Store redirect).
+                # package, and --continue-on-error hides fingerprint failures.
+                # Publishing anyway is how the Material Capsule Play Store
+                # redirect stayed hidden: a green run and a wrong APK. Freeze
+                # instead of shipping - the previous APK stays in the release,
+                # manifest.json records why, and a force_full_rebuild run after
+                # fixing patches/<app>-<source>.txt thaws the pair. Only misses
+                # the CLI reported as FAILED (a fingerprint) are retried on an
+                # older candidate version first: a name that was never defined
+                # cannot resolve on any version.
                 unapplied = _unapplied_requested(patch_output, include_patches)
                 if unapplied:
-                    logging.error(
-                        f"❌ requested patch(es) never applied for {app_name}/{source} "
-                        f"v{version}: {', '.join(unapplied)} - check "
-                        f"patches/{app_name}-{source}.txt against this source's bundles"
+                    fingerprint_misses = [u for u in unapplied if u.endswith("(FAILED)")]
+                    if len(fingerprint_misses) == len(unapplied) and attempt_idx < len(versions_to_try) - 1:
+                        logging.warning(
+                            f"⚠️ requested patch(es) failed on {app_name} v{version}: "
+                            f"{', '.join(unapplied)}; trying older candidate version"
+                        )
+                        input_apk.unlink(missing_ok=True)
+                        output_apk.unlink(missing_ok=True)
+                        continue
+                    # Never leave the stock APK behind: the artifact step would
+                    # happily upload it as patched.
+                    input_apk.unlink(missing_ok=True)
+                    output_apk.unlink(missing_ok=True)
+                    raise FreezeBuild(
+                        f"requested patch(es) never applied for {app_name}/{source} "
+                        f"v{version}: {', '.join(unapplied)}; check "
+                        f"patches/{app_name}-{source}.txt against this source's "
+                        f"bundles (python scripts/audit_patch_names.py)"
                     )
             else:
                 logging.info("🔧 Using ReVanced patching system...")
@@ -515,10 +537,10 @@ def main():
             logging.info(f"🔨 Building {app_name} for {arch} architecture...")
             try:
                 apk_path = run_build(app_name, source, arch)
-            except FreezeBuild:
+            except FreezeBuild as e:
                 # Write the freeze record for this arch right away so the
                 # planner stops re-scheduling it even when sibling arches build.
-                _write_freeze_records(app_name, source, [arch])
+                _write_freeze_records(app_name, source, [arch], str(e))
                 frozen = True
                 continue
             if apk_path:
@@ -539,9 +561,9 @@ def main():
         apk_path = None
         try:
             apk_path = run_build(app_name, source, "universal")
-        except FreezeBuild:
-            _write_freeze_records(app_name, source, ["universal"])
-            print(f"🧊 Frozen {app_name}/{source}: every download source failed to supply a build")
+        except FreezeBuild as e:
+            _write_freeze_records(app_name, source, ["universal"], str(e))
+            print(f"🧊 Frozen {app_name}/{source}: {e}")
         if apk_path:
             print(f"🎯 Final APK path: {apk_path}")
 
