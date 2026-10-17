@@ -69,3 +69,27 @@ bundles are plain `gitlab` source entries, resolved via the GitLab releases API
 then the targeted fix bundles, with the generic upstream `MorpheApp/morphe-patches`
 last. Enable/disable flags are applied per bundle (see `src/__main__.py`), so
 order does not affect which patches can be selected.
+
+## Patch files (`patches/<app_name>-<source>.txt`)
+
+A patch file is read only when its name is exactly `<app_name>-<source>.txt` for
+an entry in `patch-config.json`: `+Name` enables a patch (`-e`) and `-Name`
+disables one (`-d`). Every other line is ignored, and a file whose app or source
+has since been renamed is never read at all.
+
+The Morphe CLI **silently ignores** a name it does not define for the app's
+package, and `--continue-on-error` keeps the build green when a patch's
+fingerprint fails. A stale name therefore ships an APK that differs from what
+the file claims, with no error anywhere - this is how the Material Capsule Play
+Store redirect stayed hidden. Two guards exist:
+
+- `src/__main__.py` (`_unapplied_requested`) logs an error when an `-e` name was
+  requested but never reported as `Applied:` during the build.
+- `scripts/audit_patch_names.py` audits every patch file against the bundles its
+  source ships and the app's declared `package`, covering `-e` and `-d` without
+  building anything. Run it after any source bump, because upstream renames
+  patches between bundle versions (e.g. `BTTV and 7TV emotes` became
+  `BTTV, FFZ and 7TV emotes`; ReVanced-era `Custom branding name/icon for
+  YouTube` is now the single `Custom branding` patch):
+
+      GITHUB_TOKEN=... python scripts/audit_patch_names.py   # exit 1 on findings

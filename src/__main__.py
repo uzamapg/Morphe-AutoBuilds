@@ -62,6 +62,35 @@ def _should_retry_with_older_version(output: str | None) -> bool:
         or "patching aborted" in t
     )
 
+def _unapplied_requested(output: str | None, include_patches: list[str]) -> list[str]:
+    """Names requested with -e that the patcher never reported as applied.
+
+    The Morphe CLI silently drops an -e name it does not define (or one whose
+    compatible-package list excludes this app), and --continue-on-error keeps
+    going when a patch's fingerprint fails. A patch file that drifts past an
+    upstream rename would therefore ship an APK without that patch and without
+    a single warning - the same silent failure that hid the Material Capsule
+    redirect to the Play Store. Only covers -e (an unresolved -d is harmless
+    by itself); scripts/audit_patch_names.py covers both against the bundles.
+    """
+    if not output or not include_patches:
+        return []
+    text = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", output)
+    applied = {m.group(1).strip() for m in re.finditer(r"Applied:\s*(.+)", text)}
+    failed = {m.group(1).strip() for m in re.finditer(r"FAILED:\s*(.+)", text)}
+    unapplied = []
+    # Flat ["-e", name, "-e", name]; require the flag so passing the -d list
+    # by mistake reads as "nothing requested" instead of reporting garbage.
+    requested = [
+        include_patches[i]
+        for i in range(1, len(include_patches), 2)
+        if include_patches[i - 1] == "-e"
+    ]
+    for name in requested:
+        if name not in applied:
+            unapplied.append(f"{name} (FAILED)" if name in failed else name)
+    return unapplied
+
 def run_build(app_name: str, source: str, arch: str = "universal") -> str:
     """Build APK for specific architecture"""
     download_files, name = downloader.download_required(source)
@@ -366,6 +395,19 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                         f"Patch bundle applied 0 patches to {app_name} v{version}. "
                         f"The base APK does not match the fingerprints this source "
                         f"targets, so the output would be an unpatched app. Refusing to publish it."
+                    )
+                # The CLI swallows -e names it does not define for this
+                # package, and --continue-on-error hides fingerprint failures,
+                # so surface loudly anything requested that never ran. Without
+                # this the build looks green while the patch silently never
+                # applied (the failure mode that hid the Material Capsule
+                # Play Store redirect).
+                unapplied = _unapplied_requested(patch_output, include_patches)
+                if unapplied:
+                    logging.error(
+                        f"❌ requested patch(es) never applied for {app_name}/{source} "
+                        f"v{version}: {', '.join(unapplied)} - check "
+                        f"patches/{app_name}-{source}.txt against this source's bundles"
                     )
             else:
                 logging.info("🔧 Using ReVanced patching system...")

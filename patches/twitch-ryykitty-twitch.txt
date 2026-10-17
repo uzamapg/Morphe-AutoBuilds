@@ -3,7 +3,7 @@
 + Hide Turbo promotions
 + Hide subscription discount banners
 + Auto-claim bonus channel points
-+ BTTV and 7TV emotes
++ BTTV, FFZ and 7TV emotes
 + Reload stream
 + Block client-requested ads
 - Playback diagnostics
