@@ -230,6 +230,33 @@ Contributions to improve the toolchain or add support for new apps are welcome.
 
 ---
 
+## 🩹 Troubleshooting
+
+### Accessibility service toggle does nothing (Android 13+ / OxygenOS 15)
+
+Apps installed from a file manager count as sideloaded on Android 13+ and are
+blocked from using accessibility services: the toggle in the system settings
+silently reverts, and logcat shows
+`Skipping enabling service disallowed by device admin policy`. OxygenOS 15 no
+longer offers the "⋮ → Allow restricted settings" menu entry. Either fix
+works:
+
+* Install the APK with a **session-based installer** such as
+  [InstallerX Revived](https://github.com/wxxsfxyzm/InstallerX-Revived) - the
+  app is then not tagged as sideloaded. Recommended on OxygenOS 15.
+* Or lift the restriction with adb (or an on-device shell such as Shizuku/LADB):
+
+  ```bash
+  adb shell cmd appops set <package> ACCESS_RESTRICTED_SETTINGS allow
+  ```
+
+  Verify with `cmd appops get <package> ACCESS_RESTRICTED_SETTINGS` (`allow`).
+
+Both fixes are undone the next time an update is installed from a file
+manager, so re-apply them after any such update.
+
+---
+
 ## ⚠️ Disclaimer & Legal
 
 > **Important:** This repository is a build-automation toolkit. It contains **no APK files, no binaries, and no copyrighted media** of any kind. Nothing here is a downloadable app.
