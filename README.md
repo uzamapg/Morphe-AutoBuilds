@@ -106,16 +106,18 @@ the top without uninstalling again.
 ## 📦 Apps & Patch Sources
 
 Each app is rebuilt for every community source that ships patches for it, which is why the same app can
-appear under several sources — one APK per source. The list below is derived from
+appear under several sources — one APK per source. Everything below is derived from
 [`patch-config.json`](patch-config.json), [`arch-config.json`](arch-config.json), the app definitions in
 [`apps/`](apps) and the option files in [`patches/`](patches).
 
+Assets are named `<app>-<arch>-<source>-v<version>.apk`. `universal` means every ARM ABI in one file,
+while an explicit architecture list means the build was split per architecture (`arch-config.json`).
+A `—` in the *Package* column means the app definition under `apps/` carries no `package` value.
+
 <details>
-<summary><b>Click to expand</b> — 455 apps · 562 app&nbsp;×&nbsp;source builds · 63 patch sources</summary>
+<summary><b>🧩 Sources</b> — 63 patch sources and the bundles each one loads</summary>
 
-Each source below is one entry of `patch-config.json`. A source that ships patches for an app produces its own APK (`<app>-<arch>-<source>-v<version>.apk`), so the same app can appear under several sources. `universal` means every ARM ABI in one file; an explicit list means the build was split per architecture (`arch-config.json`). A `—` in the *Package* column means the app definition under `apps/` carries no `package` value.
-
-#### 🧩 Sources
+<br>
 
 | Source | Apps | Patch bundle source(s) |
 |:-------|-----:|:-----------------------|
@@ -183,7 +185,12 @@ Each source below is one entry of `patch-config.json`. A source that ships patch
 | `xhehab` | 13 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`Xhehab/Xhehab-Patches`](https://github.com/Xhehab/Xhehab-Patches) `@latest` |
 | `xtra` | 13 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`BholeyKaBhakt/android-patches-xtra`](https://github.com/BholeyKaBhakt/android-patches-xtra) `@latest` |
 
-#### 📱 Apps by source
+</details>
+
+<details>
+<summary><b>📱 Apps by source</b> — 455 apps · 562 app&nbsp;×&nbsp;source builds</summary>
+
+<br>
 
 <details>
 <summary><code>Hoo</code> — 49 apps</summary>
