@@ -26,6 +26,15 @@ A sophisticated, automated pipeline that assembles installable Android applicati
 > Builds run every day at **06:00 UTC** and are published to the
 > [**`latest` release**](https://github.com/uzamapg/Morphe-AutoBuilds/releases/tag/latest).
 
+> [!NOTE]
+> **This repository is a fork.** It is based on
+> [**RookieEnough/Morphe-AutoBuilds**](https://github.com/RookieEnough/Morphe-AutoBuilds), kept here as the
+> `upstream` git remote — credit for the original pipeline belongs there.
+>
+> **Everything added in this fork is AI-assisted.** The extra patch sources and bundles, the
+> patch-file repairs, the guard and audit tooling, and this README are all written with the help of
+> AI coding agents, then verified by running the pipeline against the live bundles.
+
 ## ⚡ At a Glance
 
 | Metric | Value |
@@ -1619,6 +1628,10 @@ build time.
 
 ### 📝 Operational Notes
 
+* The original repository is tracked as the `upstream` git remote; `origin` is this fork.
+* Maintenance here is AI-assisted (see the note at the top of this file). Patch sources, patch
+  files, guards, tooling and documentation are AI-drafted and then checked against the live bundles
+  with `scripts/audit_patch_names.py` plus a `workflow_dispatch` run of `patch.yml`.
 * The pipeline was initially triggered via the push trigger on 2026-10-11 16:09.
 
 </details>
@@ -1631,7 +1644,8 @@ build time.
 
 * **No binaries hosted:** All build outputs are produced locally or in CI and are never committed to this repository.
 * **Educational purpose:** The workflows and scripts are provided for educational and research purposes, to demonstrate automated Android build pipelines.
-* **Affiliation:** This project is **not** affiliated with the Morphe Team or with any app publisher whose software it can process.
+* **Affiliation:** This is a fork of [RookieEnough/Morphe-AutoBuilds](https://github.com/RookieEnough/Morphe-AutoBuilds), maintained independently. It is **not** affiliated with the Morphe Team or with any app publisher whose software it can process.
+* **AI-assisted maintenance:** Additions and fixes made in this fork are produced with AI coding agents and reviewed by running the pipeline; nothing is merged on the strength of the draft alone.
 * **Your responsibility:** You are responsible for complying with the licenses and terms of service of the apps and build sources you choose to use. Do not redistribute builds in ways that violate those terms.
 * **Use at your own risk:** Builds are generated automatically from third-party sources and may contain experimental features.
 * **GmsCore:** Morphe's MicroG-RE is required for these non-root apps to function correctly.
@@ -1643,5 +1657,7 @@ build time.
 **If you found this project helpful, please consider giving it a ⭐ Star.**  
 <br>
 **Made with 💜 by RookieZ**
+<br>
+Fork of [RookieEnough/Morphe-AutoBuilds](https://github.com/RookieEnough/Morphe-AutoBuilds), maintained with AI assistance.
 
 </div>
