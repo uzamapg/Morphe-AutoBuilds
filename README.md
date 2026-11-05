@@ -188,7 +188,7 @@ A `—` in the *Package* column means the app definition under `apps/` carries n
 </details>
 
 <details>
-<summary><b>📱 Apps by source</b> — 455 apps · 562 app&nbsp;×&nbsp;source builds</summary>
+<summary><b>📱 Apps by source</b> — 455 apps · 565 app&nbsp;×&nbsp;source builds</summary>
 
 <br>
 
@@ -508,7 +508,7 @@ A `—` in the *Package* column means the app definition under `apps/` carries n
 </details>
 
 <details>
-<summary><code>devanced</code> — 24 apps</summary>
+<summary><code>devanced</code> — 23 apps</summary>
 
 **Bundle source(s):** [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) @latest (GitHub), [`RookieEnough/De-Vanced`](https://github.com/RookieEnough/De-Vanced) @prerelease (GitHub)
 
@@ -519,7 +519,6 @@ A `—` in the *Package* column means the app definition under `apps/` carries n
 | angulus | `com.drinkplusplus.angulus` | `universal` | — |
 | bandcamp | `com.bandcamp.android` | `universal` | — |
 | cricbuzz | `com.cricbuzz.android` | `universal` | — |
-| facebook | `com.facebook.katana` | `universal` | — |
 | gmx-mail | `de.gmx.mobile.android.mail` | `universal` | — |
 | google-photos | `com.google.android.apps.photos` | `universal` | — |
 | google-recorder | `com.google.android.apps.recorder` | `universal` | — |
