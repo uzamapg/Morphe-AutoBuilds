@@ -105,6 +105,36 @@ def rebuild_all_links(tag: str) -> int:
     return 0
 
 
+def verify_release_healthy(tag: str) -> tuple[bool, str]:
+    """Post-publish health check for the GitLab release.
+
+    Returns (healthy, detail). The package registry is the source of truth:
+    if it holds APKs but the release object is missing or has no asset
+    links, the store shows every patched app as unavailable (seen 2026-10-09
+    and 2026-10-22 when the publish step died after the tag move).
+    list_asset_links() already retries through GitLab's consistency lag.
+    """
+    try:
+        r = gitlab_api.api("GET", f"/releases/{tag}")
+        if r.status_code == 404:
+            return False, "release object is missing"
+        r.raise_for_status()
+    except Exception as e:
+        return False, f"release check failed: {e}"[:200]
+    links = gitlab_api.list_asset_links(tag)
+    try:
+        pkg_files = gitlab_api.list_package_files()
+        expected = len({f.get("file_name", "") for f in pkg_files
+                        if f.get("file_name", "").endswith(".apk")})
+    except Exception as e:
+        logging.warning(f"verify: could not list package files: {e}")
+        expected = -1
+    if expected > 0 and not links:
+        return False, (f"release has 0 asset links but package registry "
+                       f"holds {expected} APKs")
+    return True, f"release OK ({len(links)} asset links)"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--apks-dir", required=False, default=None)
@@ -115,10 +145,19 @@ def main() -> int:
     ap.add_argument("--rebuild-links", action="store_true",
                     help="Recovery mode: rebuild all release asset links from "
                          "package files. Ignores --apks-dir.")
+    ap.add_argument("--verify-only", action="store_true",
+                    help="Check that the release exists and serves asset "
+                         "links; exit 0 if healthy, 1 otherwise. "
+                         "Ignores --apks-dir.")
     args = ap.parse_args()
 
     if args.rebuild_links:
         return rebuild_all_links(args.tag)
+
+    if args.verify_only:
+        healthy, detail = verify_release_healthy(args.tag)
+        logging.info(f"Verify release '{args.tag}': {detail}")
+        return 0 if healthy else 1
 
     if not args.apks_dir:
         ap.error("--apks-dir is required unless --rebuild-links is used")
@@ -174,16 +213,29 @@ def main() -> int:
         except Exception:
             title, notes = build_release_notes(list(urls))
         existing = {l["name"]: l for l in gitlab_api.list_asset_links(args.tag)}
+        # The package registry is the source of truth for which APKs exist.
+        # The asset-links API is flaky (consistency lag, empty listings), so
+        # the restore set comes from package files, unioned with the link
+        # listing. Relying on links alone meant a single empty API response
+        # wiped every app from the release with nothing to restore.
+        try:
+            _pre_files = gitlab_api.list_package_files()
+            _pre_apks = {f.get("file_name", "") for f in _pre_files
+                         if f.get("file_name", "").endswith(".apk")}
+        except Exception as e:
+            logging.warning(f"Could not list package files pre-wipe: {e}")
+            _pre_apks = set()
+        restore_names = _pre_apks | {n for n in existing if n.endswith(".apk")}
+        logging.info(f"Restore set: {len(restore_names)} APKs "
+                     f"({len(_pre_apks)} from packages, {len(existing)} from links)")
         gitlab_api.ensure_release(args.tag, title, notes, ref)
         # NOTE: ensure_release() calls move_tag() which deletes/recreates the tag.
         # In GitLab, this wipes the release's asset links. Recreate links for
-        # all previously-existing apps (from package files) plus new uploads.
+        # every APK in the restore set (old ones revived, new ones fresh below).
         _restored = 0
-        for old_name in sorted(existing.keys()):
+        for old_name in sorted(restore_names):
             if old_name in urls:
                 continue  # Will be (re)created below as fresh upload
-            if not old_name.endswith(".apk"):
-                continue
             url = gitlab_api.package_file_url(old_name)
             try:
                 r = gitlab_api.api("POST", f"/releases/{args.tag}/assets/links",

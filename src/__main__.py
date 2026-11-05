@@ -6,6 +6,7 @@ from sys import exit
 from pathlib import Path
 from os import getenv
 import subprocess
+import shutil
 from src import (
     r2,
     utils,
@@ -186,10 +187,10 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
 
     download_methods = [
         downloader.download_apkmirror,
+        downloader.download_apkpure,
         downloader.download_aptoide,
         downloader.download_github,
         downloader.download_uptodown,
-        downloader.download_apkpure,
         downloader.download_apkcombo,
         downloader.download_apkfab,
         downloader.download_codeberg,
@@ -208,6 +209,21 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
         apk_path = utils.ensure_usable_apk(apk_path, app_name, ver or "")
         if apk_path is None:
             logging.warning(f"Discarding unusable download from {method.__name__}; trying next source")
+            continue
+        # Reject downloads that provably lack the architecture being built.
+        # Mirrors serve per-device variants (for example an XAPK whose only
+        # ABI split is armeabi-v7a); patching one and shipping it as
+        # "universal" produces an APK that refuses to install on 64-bit-only
+        # devices. No ABI evidence (no visible splits or libraries) is not
+        # a rejection; the post-merge guard below is the backstop.
+        abis = utils.download_abis(apk_path)
+        required_abis = {"arm64-v8a"} if arch == "universal" else {arch}
+        if abis and not required_abis.issubset(abis):
+            logging.warning(
+                f"Discarding download from {method.__name__}: it provides ABIs "
+                f"{sorted(abis)}, which do not cover {arch}; trying next source"
+            )
+            apk_path.unlink(missing_ok=True)
             continue
         input_apk, version, candidates = apk_path, ver, cands
         used_method = method
@@ -338,6 +354,28 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
                 utils.strip_zip_entries(input_apk, ["lib/x86/*", "lib/x86_64/*", "lib/arm64-v8a/*"])
         else:
             utils.strip_zip_entries(input_apk, ["lib/x86/*", "lib/x86_64/*"])
+
+        # Final ABI guard: never ship a build whose native libraries do not
+        # cover the architecture in its label. (2026-10-30: "universal" X and
+        # Reddit builds merged from a single armeabi-v7a variant would not
+        # install on 64-bit-only devices.) Failing the attempt is correct;
+        # the store keeps serving the previous good build.
+        merged_abis = utils.download_abis(input_apk)
+        if merged_abis:
+            if arch == "universal" and "arm64-v8a" not in merged_abis:
+                logging.error(
+                    f"Universal build for {app_name} v{version} contains only "
+                    f"{sorted(merged_abis)} native libraries; refusing to ship "
+                    f"a build that 64-bit-only devices cannot install"
+                )
+                continue
+            if arch != "universal" and arch not in merged_abis:
+                logging.error(
+                    f"Build for {app_name} v{version} contains only "
+                    f"{sorted(merged_abis)} native libraries, not {arch}; "
+                    f"refusing to ship it under the {arch} label"
+                )
+                continue
 
         # Validate APK integrity (safety net: downloads were already validated,
         # but bundle merging / arch stripping can corrupt the file).
@@ -478,6 +516,14 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
         apksigner = utils.find_apksigner()
         if not apksigner:
             raise RuntimeError("apksigner not found")
+
+        if app_name in ("tiktok", "twitter", "x-new"):
+            from src.play_updates import disable_play_store_updates
+            disable_play_store_updates(output_apk)
+            zipalign = shutil.which("zipalign") or str(Path(apksigner).with_name("zipalign"))
+            aligned_apk = output_apk.with_suffix(".aligned.apk")
+            utils.run_process([zipalign, "-f", "-P", "16", "4", str(output_apk), str(aligned_apk)])
+            aligned_apk.replace(output_apk)
 
         try:
             utils.run_process([

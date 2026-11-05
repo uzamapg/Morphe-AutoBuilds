@@ -1,0 +1,10 @@
+{
+    "org": "discord",
+    "name": "discord-chat-for-gamers",
+    "release_prefix": "discord-talk-play-hang-out",
+    "type": "BUNDLE", 
+    "arch": "universal",
+    "dpi": "120-640dpi",
+    "package" : "com.discord",
+    "version" : ""
+}

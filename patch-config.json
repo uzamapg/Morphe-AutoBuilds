@@ -302,10 +302,6 @@
     },
     {
       "app_name": "facebook",
-      "source": "devanced"
-    },
-    {
-      "app_name": "facebook",
       "source": "hush-facebook"
     },
     {
@@ -2247,6 +2243,22 @@
     {
       "app_name": "sleep-android",
       "source": "Hoo"
+    },
+    {
+      "app_name": "pinterest",
+      "source": "hushpinterest"
+    },
+    {
+      "app_name": "windscribe",
+      "source": "rushiranpise-dev"
+    },
+    {
+      "app_name": "google-photos",
+      "source": "akash-sriram"
+    },
+    {
+      "app_name": "google-maps",
+      "source": "bearinmindcat"
     }
   ]
 }
