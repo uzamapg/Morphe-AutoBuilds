@@ -387,6 +387,7 @@ def gh_api_request(endpoint: str) -> dict:
             ["gh", "api", endpoint],
             capture_output=True,
             text=True,
+            encoding="utf-8",
             env=env,
             check=True
         )
@@ -473,9 +474,9 @@ def detect_release(entry: dict) -> dict:
 
 def detect_gitlab_release(project: str, tag: str) -> dict:
     encoded = quote(project, safe="")
-    if tag == "latest":
-        data = fetch_json(f"https://gitlab.com/api/v4/projects/{encoded}/releases/permalink/latest")
-    elif tag in ("", "dev", "prerelease"):
+    if tag in ("latest", "", "dev", "prerelease"):
+        # "latest" includes prereleases: the list is newest-first and may lead
+        # with a prerelease, unlike the permalink/latest endpoint.
         releases = fetch_json(f"https://gitlab.com/api/v4/projects/{encoded}/releases")
         if not isinstance(releases, list) or not releases:
             raise ValueError(f"No releases found for GitLab project {project}")
@@ -491,9 +492,8 @@ def detect_gitlab_release(project: str, tag: str) -> dict:
 
 def detect_codeberg_release(user: str, repo: str, tag: str) -> dict:
     base = f"https://codeberg.org/api/v1/repos/{user}/{repo}/releases"
-    if tag == "latest":
-        data = fetch_json(f"{base}/latest")
-    elif tag in ("", "dev", "prerelease"):
+    if tag in ("latest", "", "dev", "prerelease"):
+        # "latest" includes prereleases; the endpoint is newest-first.
         releases = fetch_json(base)
         if not isinstance(releases, list) or not releases:
             raise ValueError(f"No releases found for Codeberg repo {user}/{repo}")
@@ -523,10 +523,7 @@ def detect_github_release(user: str, repo: str, tag: str) -> dict:
             if attempt < 2 and shutil.which("gh"):
                 logging.info(f"Fetching release {tag} for {user}/{repo} (attempt {attempt + 1})...")
                 
-                if tag == "latest":
-                    data = gh_api_request(f"repos/{user}/{repo}/releases/latest")
-                    return data
-                elif tag in ["", "dev", "prerelease"]:
+                if tag in ["latest", "", "dev", "prerelease"]:
                     data = gh_api_request(f"repos/{user}/{repo}/releases")
                     if not isinstance(data, list):
                         # Handle case where API might return a single object (unlikely for /releases)
@@ -535,8 +532,13 @@ def detect_github_release(user: str, repo: str, tag: str) -> dict:
                     if not data:
                         raise ValueError(f"No releases found for {user}/{repo}")
                     
-                    if tag == "":
-                        release = max(data, key=lambda x: x['created_at'])
+                    if tag in ("latest", ""):
+                        # "latest" prefers the newest release, prereleases
+                        # included, instead of GitHub's stable-only latest.
+                        choices = [r for r in data if not r.get("draft")]
+                        if not choices:
+                            raise ValueError(f"No published releases found for {user}/{repo}")
+                        release = max(choices, key=lambda x: x['created_at'])
                     elif tag == "dev":
                         devs = [r for r in data if 'dev' in r['tag_name'].lower()]
                         if not devs:
@@ -555,9 +557,11 @@ def detect_github_release(user: str, repo: str, tag: str) -> dict:
                 # Fallback to PyGithub
                 logging.warning(f"Falling back to PyGithub for {user}/{repo}...")
                 repo_obj = gh.get_repo(f"{user}/{repo}")
-                if tag == "latest":
-                    release = repo_obj.get_latest_release()
-                    return release.raw_data
+                if tag in ("latest", ""):
+                    releases = [r for r in repo_obj.get_releases() if not r.draft]
+                    if not releases:
+                        raise ValueError(f"No published releases found for {user}/{repo}")
+                    return max(releases, key=lambda r: r.created_at).raw_data
                 return repo_obj.get_release(tag).raw_data
                     
         except Exception as e:

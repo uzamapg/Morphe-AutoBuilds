@@ -1532,7 +1532,8 @@ file claims. See *Patch-Name Auditing & Build Freezing* below.
 #### 5. Patch Sources — `sources/<source>.json`
 
 What each source consumes. The first entry names the source; the rest point at the CLI and the patch bundles
-it should load (GitHub or GitLab, pinned to a tag or `latest`).
+it should load (GitHub or GitLab, pinned to a tag or `latest`). `latest` means the newest published release,
+prereleases included — pin a tag to stay on a stable build.
 
 ```json
 [
