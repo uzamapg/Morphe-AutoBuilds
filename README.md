@@ -162,7 +162,6 @@ A `—` in the *Package* column means the app definition under `apps/` carries n
 | `hxreborn` | 37 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`hxreborn/morphe-patches`](https://github.com/hxreborn/morphe-patches) `@latest` |
 | `icysymmetra` | 1 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`icysymmetra/tiktok-patches-for-morphe`](https://github.com/icysymmetra/tiktok-patches-for-morphe) `@latest` |
 | `jasonwu1994` | 1 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`jasonwu1994/Gboard-patches`](https://github.com/jasonwu1994/Gboard-patches) `@latest` |
-| `jouss` | 22 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`Joussflls10/Jouss-Patches`](https://github.com/Joussflls10/Jouss-Patches) `@latest` |
 | `kim20598` | 1 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`kim20598/hakim-morphe-patches`](https://github.com/kim20598/hakim-morphe-patches) `@latest` |
 | `kondratjev` | 10 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`kondratjev/morphe-patches`](https://github.com/kondratjev/morphe-patches) `@latest` |
 | `kveld` | 5 | [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) `@latest`<br>[`kveld9/kveld-morphe-patches`](https://github.com/kveld9/kveld-morphe-patches) `@latest` |
@@ -188,7 +187,7 @@ A `—` in the *Package* column means the app definition under `apps/` carries n
 </details>
 
 <details>
-<summary><b>📱 Apps by source</b> — 455 apps · 565 app&nbsp;×&nbsp;source builds</summary>
+<summary><b>📱 Apps by source</b> — 449 apps · 543 app&nbsp;×&nbsp;source builds</summary>
 
 <br>
 
@@ -971,38 +970,6 @@ A `—` in the *Package* column means the app definition under `apps/` carries n
 | App | Package | Builds | Patch file |
 |:----|:--------|:-------|:-----------|
 | gboard | `com.google.android.inputmethod.latin` | `universal` | — |
-
-</details>
-
-<details>
-<summary><code>jouss</code> — 22 apps</summary>
-
-**Bundle source(s):** [`MorpheApp/morphe-cli`](https://github.com/MorpheApp/morphe-cli) @latest (GitHub), [`Joussflls10/Jouss-Patches`](https://github.com/Joussflls10/Jouss-Patches) @latest (GitHub)
-
-| App | Package | Builds | Patch file |
-|:----|:--------|:-------|:-----------|
-| alarmo | `com.bytesong.missionalarm` | `universal` | — |
-| camscanner-fast | `com.cv.docscanner` | `universal` | — |
-| crex | `in.cricketexchange.app.cricketexchange` | `universal` | — |
-| cricbuzz | `com.cricbuzz.android` | `universal` | — |
-| eyecon | `com.eyecon.global` | `universal` | — |
-| fing | `com.overlook.android.fing` | `universal` | — |
-| hotstar | `in.startv.hotstar` | `universal` | — |
-| lumina | `com.lumina.wallpapers` | `universal` | — |
-| macrodroid | `com.arlosoft.macrodroid` | `universal` | — |
-| mark | `com.markOne.ss_app` | `universal` | — |
-| plus | `org.telegram.plus` | `universal` | — |
-| prompter | `com.solid.teleprompter` | `universal` | — |
-| proton-vpn | `ch.protonvpn.android` | `universal` | — |
-| sdmse | `eu.darken.sdmse` | `universal` | — |
-| starsense | `com.celestron.skybox` | `universal` | — |
-| taskmanager | `com.rk.taskmanager` | `universal` | — |
-| ticktick | `com.ticktick.task` | `universal` | — |
-| trackit | `app.vinztech.trackit` | `universal` | — |
-| truecaller | `com.truecaller` | `universal` | — |
-| videoplayer | `com.mxtech.videoplayer.pro` | `universal` | — |
-| vivredarija | `com.vivredarija` | `universal` | — |
-| vlog | `com.frontrow.vlog` | `universal` | — |
 
 </details>
 
