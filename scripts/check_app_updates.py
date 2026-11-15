@@ -76,7 +76,7 @@ def run_gh(args: List[str], timeout: int = 120) -> Tuple[int, str, str]:
     try:
         p = subprocess.run(
             ["gh", *args],
-            capture_output=True, text=True, env=env, timeout=timeout,
+            capture_output=True, text=True, encoding="utf-8", env=env, timeout=timeout,
         )
         return p.returncode, p.stdout, p.stderr
     except FileNotFoundError:
@@ -260,7 +260,7 @@ def _fetch_github_release_dict(user: str, repo: str, tag: str) -> Optional[dict]
     This is the single authoritative release resolver for the planner. It is
     intentionally BROAD so we never miss a rebuild signal:
 
-      - tag == "latest"      -> /releases/latest (falls back to most-recent list)
+      - tag == "latest"      -> newest non-draft release, prereleases included
       - tag in ("","dev","prerelease") -> /releases list, filtered accordingly
       - any other tag        -> /releases/tags/<tag>
       - no release at all    -> None (caller can still use commit-SHA via the
@@ -274,26 +274,17 @@ def _fetch_github_release_dict(user: str, repo: str, tag: str) -> Optional[dict]
     if key in _github_release_cache:
         return _github_release_cache[key]
 
-    if tag == "latest":
-        api = f"repos/{user}/{repo}/releases/latest"
-    elif tag in ("", "dev", "prerelease"):
-        api = f"repos/{user}/{repo}/releases?per_page=10"
+    if tag in ("latest", "", "dev", "prerelease"):
+        # "latest" includes prereleases so the planner and the builder agree on
+        # which release is newest; the list endpoint is newest-first.
+        api = f"repos/{user}/{repo}/releases?per_page=30"
     else:
         api = f"repos/{user}/{repo}/releases/tags/{tag}"
 
     rc, out, err = run_gh(["api", api])
     if rc != 0:
-        # Some repos publish ONLY prereleases, so /releases/latest 404s. Fall
-        # back to the list endpoint and pick the most recent release of any kind.
-        if tag == "latest":
-            list_api = f"repos/{user}/{repo}/releases?per_page=10"
-            rc2, out2, _ = run_gh(["api", list_api])
-            if rc2 == 0:
-                rc, out, err = rc2, out2, _
-                api = list_api
-        if rc != 0:
-            _github_release_cache[key] = None
-            return None
+        _github_release_cache[key] = None
+        return None
 
     try:
         data = json.loads(out)
@@ -306,6 +297,9 @@ def _fetch_github_release_dict(user: str, repo: str, tag: str) -> Optional[dict]
             data = [r for r in data if "dev" in (r.get("tag_name") or "").lower()]
         elif tag == "prerelease":
             data = [r for r in data if r.get("prerelease")]
+        else:
+            # "latest" and "" mean newest published release of any kind.
+            data = [r for r in data if not r.get("draft")]
         if not data:
             _github_release_cache[key] = None
             return None
@@ -380,9 +374,8 @@ def _fetch_github_signature(user: str, repo: str, tag: str) -> str:
 def _fetch_gitlab_signature(project: str, tag: str) -> str:
     from urllib.parse import quote
     encoded = quote(project, safe="")
-    if tag == "latest":
-        api = f"https://gitlab.com/api/v4/projects/{encoded}/releases/permalink/latest"
-    elif tag in ("", "dev", "prerelease"):
+    if tag in ("latest", "", "dev", "prerelease"):
+        # "latest" includes prereleases; the list is newest-first.
         api = f"https://gitlab.com/api/v4/projects/{encoded}/releases"
     else:
         api = f"https://gitlab.com/api/v4/projects/{encoded}/releases/{quote(tag, safe='')}"
@@ -398,14 +391,15 @@ def _fetch_gitlab_signature(project: str, tag: str) -> str:
 def _fetch_codeberg_signature(user: str, repo: str, tag: str) -> str:
     from urllib.parse import quote
     base = f"https://codeberg.org/api/v1/repos/{user}/{repo}/releases"
-    if tag == "latest":
-        api = f"{base}/latest"
-    elif tag in ("", "dev", "prerelease"):
+    if tag in ("latest", "", "dev", "prerelease"):
+        # "latest" includes prereleases; the endpoint is newest-first.
         api = base
     else:
         api = f"{base}/tags/{quote(tag, safe='')}"
 
     data = provider_utils.fetch_json(api)
+    if isinstance(data, list):
+        data = data[0] if data else {}
     tag_name = data.get("tag_name") or "?"
     published = data.get("published_at") or "?"
     return f"{tag_name}@{published}"
