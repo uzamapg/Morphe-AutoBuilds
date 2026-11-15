@@ -244,6 +244,13 @@ jobs:
             if python -m src; then
               for apk in ./*.apk; do
                 [ -e "$apk" ] || continue
+                # Only our own build output is named {app}-{arch}-{source}-v{ver}.apk.
+                # Downloaded source assets (e.g. HushFacebook's hush-unpacker-*.apk)
+                # sit in the same directory and must not be published or recorded.
+                case "$(basename "$apk")" in
+                  "${APP_NAME}"-*) ;;
+                  *) echo "skip non-build apk: $(basename "$apk")"; continue ;;
+                esac
                 APK_PATH="$apk" python scripts/record_build.py || true
                 mv -f "$apk" "all-apks/$(basename "$apk")"
               done
